@@ -8,6 +8,236 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- Premium Screenshot Slider (Light Theme Tone) --- */
+        .screenshot-slider {
+            margin-top: 35px !important;
+            background: var(--bg-surface) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            border: 1px solid var(--border-color) !important;
+            border-radius: 20px !important;
+            padding: 18px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 14px !important;
+            position: relative !important;
+            overflow: hidden !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+            box-shadow: 0 10px 30px rgba(123, 124, 255, 0.05), inset 0 1px 0 rgba(255,255,255,0.6) !important;
+        }
+
+        .screenshot-header {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+            padding-bottom: 12px !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Mac Window Controls */
+        .mac-controls {
+            display: flex !important;
+            gap: 6px !important;
+        }
+
+        .mac-dot {
+            width: 11px !important;
+            height: 11px !important;
+            border-radius: 50% !important;
+            display: inline-block !important;
+        }
+
+        .mac-dot.red { background: #ff5f56 !important; }
+        .mac-dot.yellow { background: #ffbd2e !important; }
+        .mac-dot.green { background: #27c93f !important; }
+
+        .screenshot-title {
+            font-family: var(--font-heading) !important;
+            font-size: 0.95rem !important;
+            font-weight: 600 !important;
+            color: var(--text-primary) !important;
+            letter-spacing: 0.01em !important;
+        }
+
+        .screenshot-counter {
+            font-family: monospace !important;
+            font-size: 0.8rem !important;
+            color: var(--accent-indigo) !important;
+            background: rgba(79, 70, 229, 0.08) !important;
+            padding: 3px 12px !important;
+            border-radius: 20px !important;
+            border: 1px solid rgba(79, 70, 229, 0.15) !important;
+            font-weight: 700 !important;
+        }
+
+        .screenshot-viewport {
+            position: relative !important;
+            width: 100% !important;
+            height: 400px !important;
+            overflow: hidden !important;
+            border-radius: 12px !important;
+            background: #f8fafc !important; /* Premium light-grey canvas */
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+            border: 1px solid rgba(0, 0, 0, 0.05) !important;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        .screenshot-track {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            width: 100% !important;
+            height: 100% !important;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            cursor: grab !important;
+            box-sizing: border-box !important;
+        }
+
+        .screenshot-track:active {
+            cursor: grabbing !important;
+        }
+
+        .screenshot-slide {
+            flex: 0 0 100% !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: 100% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            user-select: none !important;
+            -webkit-user-drag: none !important;
+            box-sizing: border-box !important;
+            padding: 14px !important; /* Breathing room */
+        }
+
+        .screenshot-slide img {
+            max-width: 100% !important;
+            max-height: 100% !important;
+            object-fit: contain !important;
+            pointer-events: none !important;
+            filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.07)) !important; /* Elegant web drop shadow */
+            border: 1px solid rgba(0, 0, 0, 0.06) !important;
+            border-radius: 8px !important;
+        }
+
+        /* Arrows inside viewport */
+        .slider-arrow {
+            position: absolute !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            width: 42px !important;
+            height: 42px !important;
+            border-radius: 50% !important;
+            background: rgba(255, 255, 255, 0.9) !important;
+            border: 1px solid rgba(0, 0, 0, 0.08) !important;
+            color: var(--text-primary) !important;
+            cursor: pointer !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            z-index: 5 !important;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+            box-sizing: border-box !important;
+            padding: 0 !important;
+        }
+
+        .slider-arrow:hover {
+            background: var(--accent-indigo) !important;
+            border-color: var(--accent-indigo) !important;
+            color: #ffffff !important;
+            transform: translateY(-50%) scale(1.08) !important;
+            box-shadow: var(--glow-shadow) !important;
+        }
+
+        .prev-arrow {
+            left: 16px !important;
+        }
+
+        .next-arrow {
+            right: 16px !important;
+        }
+
+        .slider-arrow svg {
+            width: 22px !important;
+            height: 22px !important;
+            fill: currentColor !important;
+        }
+
+        /* Dots Indicator for screenshots */
+        .screenshot-dots {
+            display: flex !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            margin-top: 6px !important;
+        }
+
+        .screenshot-dot {
+            width: 7px !important;
+            height: 7px !important;
+            border-radius: 50% !important;
+            background: rgba(0, 0, 0, 0.1) !important;
+            cursor: pointer !important;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+
+        .screenshot-dot:hover {
+            background: rgba(0, 0, 0, 0.25) !important;
+        }
+
+        .screenshot-dot.active {
+            background: var(--accent-indigo) !important;
+            transform: scale(1.1) !important;
+            width: 20px !important;
+            border-radius: 5px !important;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2) !important;
+        }
+
+        @media (max-width: 720px) {
+            .screenshot-viewport {
+                height: 260px !important;
+            }
+            .slider-arrow {
+                width: 36px !important;
+                height: 36px !important;
+            }
+            .prev-arrow { left: 10px !important; }
+            .next-arrow { right: 10px !important; }
+        }
+
+        @media (max-width: 480px) {
+            .screenshot-viewport {
+                height: 200px !important;
+            }
+            .slider-arrow {
+                display: none !important; /* Hide arrows on small mobile, rely on swipe! */
+            }
+            .screenshot-slider {
+                padding: 10px !important;
+                border-radius: 12px !important;
+                margin-top: 20px !important;
+            }
+            .screenshot-header {
+                padding-bottom: 8px !important;
+            }
+            .screenshot-title {
+                font-size: 0.85rem !important;
+            }
+            .screenshot-counter {
+                font-size: 0.75rem !important;
+                padding: 2px 8px !important;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="page-shell">
@@ -24,10 +254,10 @@
         </header>
 
         <main id="home" class="hero-grid">
-            <section class="hero card-surface">
+            <section class="hero card-surface reveal-left">
                 <h1>Kanokwan Kumchokchana</h1>
                 <p class="hero-copy">
-                    Computer Engineering undergraduate with hands-on experience in full-stack web application development through two software engineering internships. Skilled in developing business-oriented applications using Django, PostgreSQL, JavaScript, and Vue.js, with experience spanning requirements analysis, workflow design, implementation, deployment, and user testing. Seeking a Software Engineer or Full Stack Developer position to contribute strong software engineering and problem-solving skills.
+                    Computer Engineering undergraduate with hands-on experience developing business-oriented web applications and workflow management systems through software engineering internships. Skilled in requirements analysis, workflow design, full-stack web development, deployment, and user testing using Django, PostgreSQL, and JavaScript-based technologies.
                 </p>
 
                 <div class="hero-actions">
@@ -36,7 +266,7 @@
                 </div>
             </section>
 
-            <aside class="profile-card card-surface">
+            <aside class="profile-card card-surface reveal-right">
                 <div class="profile-frame">
                     <img src="mypic.jpg" alt="Profile Picture">
                 </div>
@@ -44,13 +274,13 @@
         </main>
 
         <section id="about" class="content-section">
-            <div class="section-heading">
+            <div class="section-heading reveal">
                 <p class="section-label">About Me</p>
                 <h2>Kanokwan Kumchokchana (Aom)</h2>
             </div>
 
             <div class="about-grid">
-                <article class="info-card card-surface">
+                <article class="info-card card-surface reveal-scale">
                     <h3>Personal Info</h3>
                     <ul class="stack-list">
                         <li>Date of Birth: June 3, 2002</li>
@@ -60,7 +290,7 @@
                     </ul>
                 </article>
 
-                <article class="info-card card-surface">
+                <article class="info-card card-surface reveal-scale reveal-delay-100">
                     <h3>Education</h3>
                     <ul class="stack-list">
                         <li>Bachelor of Engineering Program (Computer Engineering), Thammasat University (Rangsit Campus) (Expected Graduation: July 2026)</li>
@@ -69,7 +299,7 @@
                         <li>Relevant Coursework: Object-Oriented Programming, Software Engineering, Object-Oriented Analysis and Design, Database Systems, Web Application Development, Data Center Management, Cloud Computing</li>
                     </ul>
                 </article>
-                <article class="info-card card-surface">
+                <article class="info-card card-surface reveal-scale reveal-delay-200">
                     <h3>Interests</h3>
                     <ul class="stack-list">
                         <li>Full Stack Web Development</li>
@@ -78,7 +308,7 @@
                     </ul>
                 </article>
 
-                <article class="info-card card-surface">
+                <article class="info-card card-surface reveal-scale reveal-delay-300">
                     <h3>Strengths</h3>
                     <ul class="stack-list">
                         <li>Structured Problem Solving & Code Debugging</li>
@@ -90,30 +320,30 @@
         </section>
 
         <section id="experience" class="content-section">
-            <div class="section-heading">
+            <div class="section-heading reveal">
                 <p class="section-label">Experience</p>
                 <h2>Work Experience</h2>
             </div>
 
             <div class="experience-list">
                 <!-- World Product Development -->
-                <article class="experience-card card-surface">
+                <article class="experience-card card-surface reveal-left">
                     <div class="experience-header">
                         <div class="experience-company-group">
                             <span class="experience-date">August 2025 – November 2025</span>
                             <h3>World Product Development, Smart Service and Management Co., Ltd.</h3>
-                            <p class="experience-role">Programmer (Full Stack Developer)</p>
+                            <p class="experience-role">Intern – Full Stack Developer</p>
                         </div>
                     </div>
                     <ul class="experience-bullet-list">
-                        <li>Developed a role-based complaint management web application for residential communities using Django, PostgreSQL, HTML, CSS, JavaScript, and Bootstrap, collaborating with stakeholders to gather requirements and design system workflows.</li>
-                        <li>Designed and implemented full-stack features including request workflows, dashboards, reporting, PDF/Excel export, and Email/LINE Official Account notifications to support issue tracking and resolution processes.</li>
-                        <li>Supported prototype deployment through Cloudflare, participated in pilot testing with real users, gathered feedback for system improvements, and contributed to a solution later continued as a university senior project.</li>
+                        <li>Collaborated with stakeholders to gather business requirements and design workflow-driven solutions supporting 6 user roles and end-to-end service request workflows.</li>
+                        <li>Developed a workflow-driven service request management web application using Django and PostgreSQL, implementing ticket workflows, dashboards, reporting, and automated notification services.</li>
+                        <li>Deployed the prototype via Cloudflare, conducted pilot-user testing, and incorporated user feedback that laid the foundation for the company's continued development and my university senior project.</li>
                     </ul>
                 </article>
 
                 <!-- TA -->
-                <article class="experience-card card-surface">
+                <article class="experience-card card-surface reveal-right">
                     <div class="experience-header">
                         <div class="experience-company-group">
                             <span class="experience-date">July 2025</span>
@@ -122,37 +352,37 @@
                         </div>
                     </div>
                     <ul class="experience-bullet-list">
-                        <li>Assisted the instructor during laboratory sessions by explaining Python programming concepts, answering technical questions, and providing one-on-one guidance for coding exercises and debugging.</li>
-                        <li>Evaluated programming assignments and in-class quizzes, provided constructive feedback, and supported examination supervision to maintain a fair and organized learning environment.</li>
-                        <li>Supported students in developing problem-solving skills and programming fundamentals while strengthening communication, mentoring, and debugging abilities.</li>
+                        <li>Assisted in teaching Python programming laboratories for 25+ undergraduate students by explaining core programming concepts, answering technical questions, and providing one-on-one debugging guidance.</li>
+                        <li>Assessed programming assignments and quizzes, provided constructive feedback, and supported examination supervision to ensure consistency and fairness in course evaluation.</li>
+                        <li>Mentored students in Python programming, debugging, and problem-solving techniques, helping them strengthen coding fundamentals and successfully complete laboratory exercises.</li>
                     </ul>
                 </article>
 
                 <!-- Somsri Garment -->
-                <article class="experience-card card-surface">
+                <article class="experience-card card-surface reveal-left">
                     <div class="experience-header">
                         <div class="experience-company-group">
                             <span class="experience-date">June 2024 – July 2024</span>
                             <h3>Somsri Garment Co., Ltd.</h3>
-                            <p class="experience-role">Programmer Intern (Full Stack Developer)</p>
+                            <p class="experience-role">Programmer (Intern – Full Stack Developer)</p>
                         </div>
                     </div>
                     <ul class="experience-bullet-list">
-                        <li>Developed and enhanced internal full-stack web applications using Vue.js, Nuxt.js, Node.js, Prisma, and Tailwind CSS by implementing new features, resolving bugs, and improving existing workflows.</li>
-                        <li>Implemented business features including PDF generation (pdfMake), QR code generation, LINE Official Account integration, and database-driven interfaces while testing APIs with Postman and managing source code with GitHub.</li>
-                        <li>Collaborated with senior developers to test, debug, and deliver production-ready features, gaining hands-on experience with modern software development practices, version control, and Agile team collaboration.</li>
+                        <li>Developed and maintained internal business web applications using Vue.js, Nuxt.js, Node.js, Prisma, and Tailwind CSS by implementing new features, resolving bugs, and improving operational workflows.</li>
+                        <li>Automated document generation by replacing manual paper-based forms with PDF generation (pdfMake), reducing manual paperwork and improving document preparation efficiency. Integrated LINE Official Account (LINE OA) to improve customer communication and notification processes.</li>
+                        <li>Collaborated with senior developers to design, test, and deliver production-ready features using REST APIs, Postman, GitHub, and Agile development practices.</li>
                     </ul>
                 </article>
             </div>
         </section>
 
         <section id="skills" class="content-section">
-            <div class="section-heading">
+            <div class="section-heading reveal">
                 <p class="section-label">Skills</p>
             </div>
 
             <!-- Tech Stack & Tools Section -->
-            <div class="tech-stack-card card-surface">
+            <div class="tech-stack-card card-surface reveal-scale">
                 <h3>Technology Stack & Tools</h3>
                 <div class="tech-stack-grid">
                     <div class="tech-stack-category">
@@ -189,7 +419,7 @@
                             <span class="tech-tag">Docker</span>
                             <span class="tech-tag">Figma</span>
                             <span class="tech-tag">VS Code</span>
-                            <span class="tech-tag">Basic Microsoft Office</span>
+                            <span class="tech-tag">Microsoft Office</span>
                             <span class="tech-tag">Canva</span>
                             <span class="tech-tag">CapCut</span>
                         </div>
@@ -199,27 +429,28 @@
         </section>
 
         <section id="work" class="content-section">
-            <div class="section-heading">
+            <div class="section-heading reveal">
                 <p class="section-label">My Work</p>
                 <h2>Projects</h2>
             </div>
 
             <div class="project-grid">
-                <article class="project-card card-surface">
+                <article class="project-card card-surface reveal-scale">
                     <span class="card-tag">Full Stack Development</span>
                     <h3>Real-Time Project Request and Progress Management System</h3>
                     <ul class="case-list">
                         <li><strong>Problem:</strong> Residential community maintenance and service request workflows were fragmented across multiple communication channels, causing delays, data loss, and hard retrospective audits.</li>
-                        <li><strong>Solution:</strong> Developed a centralized, real-time web application to streamline the entire maintenance lifecycle (reporting, task routing, assignment, progress tracking, approvals, and reviews).</li>
-                        <li><strong>Role & Features:</strong> Designed and implemented:
+                        <li><strong>Solution:</strong> Developed a centralized, real-time workflow management platform (expanded from an internship prototype over a 9-month software engineering project) to streamline the entire maintenance lifecycle (reporting, task routing, assignment, progress tracking, approvals, and reviews).</li>
+                        <li><strong>Role & Features:</strong> Designed and implemented a workflow management platform featuring:
                             <ul>
-                                <li><strong>Role-Based Access Control (RBAC):</strong> Support for 6 distinct user roles (Requesters, Juristic Officers, Project Managers, Technicians, Executives, and Admins).</li>
-                                <li><strong>SLA Monitoring:</strong> Integrated custom SLA threshold alerts and adjustments.</li>
+                                <li><strong>Role-Based Access Control (RBAC):</strong> Support for 6 distinct user roles (Requesters, Juristic Officers, Project Managers, Technicians, Executives, and Admins) to manage end-to-end service requests.</li>
+                                <li><strong>SLA Monitoring:</strong> Integrated custom SLA threshold alerts and tracking.</li>
                                 <li><strong>LINE OA & Email Alerts:</strong> Automated real-time notifications via LINE Messaging API and Email for key state transitions.</li>
                                 <li><strong>Duplicate Check:</strong> Algorithm-based detection of similar recent issues to prevent redundant dispatch.</li>
-                                <li><strong>Management Analytics:</strong> Interactive dashboards displaying Kanban Board, Gantt Chart, and reports summarizing resolution times and user satisfaction ratings.</li>
+                                <li><strong>Management Analytics:</strong> Interactive dashboards displaying Kanban Board, Gantt Chart, and reports.</li>
                             </ul>
                         </li>
+                        <li><strong>Methodology & Testing:</strong> Refined the system through Functional Testing, Integration Testing, User Acceptance Testing (UAT), and iterative improvements based on pilot-user feedback.</li>
                         <li><strong>Tools & Tech:</strong> Django (Python), PostgreSQL, HTML5, CSS3, JavaScript, Bootstrap, LINE Messaging API</li>
                         <li><strong>Result:</strong> Significantly reduced communication redundancies, improved task-tracking efficiency, and successfully completed pilot-testing in a real-world residential community.</li>
                     </ul>
@@ -228,75 +459,372 @@
                         <a class="project-btn project-btn-code" href="project/CN04_6410615014_%E0%B8%A3%E0%B8%B2%E0%B8%A2%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%89%E0%B8%9A%E0%B8%B1%E0%B8%9A%E0%B8%AA%E0%B8%A1%E0%B8%9A%E0%B8%B9%E0%B8%A3%E0%B8%93%E0%B9%8C.pdf" target="_blank" rel="noreferrer">Full Report</a>
                         <a class="project-btn project-btn-code" href="project/%E0%B8%84%E0%B8%B9%E0%B9%88%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%83%E0%B8%8A%E0%B9%89%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%9A%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B8%88%E0%B8%B1%E0%B8%94%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B9%81%E0%B8%88%E0%B9%89%E0%B8%87%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B8%95%E0%B8%B4%E0%B8%94%E0%B8%95%E0%B8%B2%E0%B8%A1%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%84%E0%B8%B7%E0%B8%9A%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B9%83%E0%B8%99%E0%B9%82%E0%B8%84%E0%B8%A3%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%A5%E0%B9%84%E0%B8%97%E0%B8%A1%E0%B9%8C.pdf" target="_blank" rel="noreferrer">User Manual</a>
                     </div>
+
+                    <!-- System Preview Screenshot Slider -->
+                    <div class="screenshot-slider" id="realtime-screenshots">
+                        <div class="screenshot-header">
+                            <div class="mac-controls">
+                                <span class="mac-dot red"></span>
+                                <span class="mac-dot yellow"></span>
+                                <span class="mac-dot green"></span>
+                            </div>
+                            <span class="screenshot-title">System Preview</span>
+                            <span class="screenshot-counter">1 / 16</span>
+                        </div>
+                        <div class="screenshot-viewport">
+                            <button class="slider-arrow prev-arrow" aria-label="Previous Screenshot">
+                                <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                            </button>
+                            <div class="screenshot-track" id="realtime-track">
+                                <div class="screenshot-slide" data-title="Login Page"><img src="project_pic/realtime_project/login.png" alt="Login Page"></div>
+                                <div class="screenshot-slide" data-title="Dashboard Summary"><img src="project_pic/realtime_project/dashboard.png" alt="Dashboard Summary"></div>
+                                <div class="screenshot-slide" data-title="Kanban Board View"><img src="project_pic/realtime_project/board.png" alt="Kanban Board View"></div>
+                                <div class="screenshot-slide" data-title="Gantt Chart Scheduler"><img src="project_pic/realtime_project/gantt.png" alt="Gantt Chart Scheduler"></div>
+                                <div class="screenshot-slide" data-title="Create Service Request Form"><img src="project_pic/realtime_project/create.png" alt="Create Service Request Form"></div>
+                                <div class="screenshot-slide" data-title="Ticket Detailed View"><img src="project_pic/realtime_project/detail.png" alt="Ticket Detailed View"></div>
+                                <div class="screenshot-slide" data-title="Duplicate Tickets Queue"><img src="project_pic/realtime_project/duplicate_queue.png" alt="Duplicate Tickets Queue"></div>
+                                <div class="screenshot-slide" data-title="Duplicate Ticket Checking (Popular)"><img src="project_pic/realtime_project/popular.png" alt="Duplicate Ticket Checking (Popular)"></div>
+                                <div class="screenshot-slide" data-title="Request Category Management"><img src="project_pic/realtime_project/manage.png" alt="Request Category Management"></div>
+                                <div class="screenshot-slide" data-title="Juristic Taxonomy Management"><img src="project_pic/realtime_project/taxonomy_manage.png" alt="Juristic Taxonomy Management"></div>
+                                <div class="screenshot-slide" data-title="User Profile Page"><img src="project_pic/realtime_project/profile.png" alt="User Profile Page"></div>
+                                <div class="screenshot-slide" data-title="New Issues Trend Chart"><img src="project_pic/realtime_project/new-issues-trend.png" alt="New Issues Trend Chart"></div>
+                                <div class="screenshot-slide" data-title="Resolution Time Analysis"><img src="project_pic/realtime_project/resolution.png" alt="Resolution Time Analysis"></div>
+                                <div class="screenshot-slide" data-title="Highest Issue Resolution Rates"><img src="project_pic/realtime_project/highest-resolution.png" alt="Highest Issue Resolution Rates"></div>
+                                <div class="screenshot-slide" data-title="Customer Satisfaction Report"><img src="project_pic/realtime_project/satisfaction.png" alt="Customer Satisfaction Report"></div>
+                                <div class="screenshot-slide" data-title="Executive Analytics Summary"><img src="project_pic/realtime_project/summary.png" alt="Executive Analytics Summary"></div>
+                            </div>
+                            <button class="slider-arrow next-arrow" aria-label="Next Screenshot">
+                                <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                            </button>
+                        </div>
+                        <div class="screenshot-dots" id="realtime-dots"></div>
+                    </div>
+                </article>
+
+                <!-- Homie Project -->
+                <article class="project-card card-surface reveal-scale reveal-delay-100">
+                    <span class="card-tag">Full Stack Development & OOAD & UI/UX Design</span>
+                    <h3>Homie — Residential Management Platform</h3>
+                    <ul class="case-list">
+                        <li><strong>Course:</strong> CN332 Object-Oriented Analysis and Design (Group Project)</li>
+                        <li><strong>Problem:</strong> Residential property management offices and residents suffer from fragmented communication. Residents often miss announcements, forget facility bookings, lack parcel notifications, and experience slow repair dispatch workflows.</li>
+                        <li><strong>Solution:</strong> Designed an integrated, mobile-friendly web application streamlining common area bookings, parcel check-ins, announcement distribution, repair requests, and lost & found management, connected to real-time <strong>LINE OA notifications</strong>.</li>
+                        <li><strong>OOAD & Design Patterns:</strong> Developed detailed concepts, requirements analysis, Class Diagrams, Sequence Diagrams, and Use Case Diagrams. Applied core software architecture patterns including:
+                            <ul>
+                                <li><strong>Adapter Pattern:</strong> Standardized Google/Facebook social authentication checks.</li>
+                                <li><strong>Decorator Pattern:</strong> Wrapped view methods for secure authentication checks (`@login_required`).</li>
+                                <li><strong>Facade Pattern:</strong> Simplified complex API requests for LINE messaging and OAuth flow.</li>
+                                <li><strong>State Pattern:</strong> Managed lifecycle transitions for Bookings, Parcels, Repair Tickets, and Lost Items.</li>
+                                <li><strong>Strategy Pattern:</strong> Implemented runtime fallback strategies for LINE notification formats.</li>
+                                <li><strong>Command & Template Method:</strong> Modular CLI tools for Juristic/Technician scripts inheriting a base command structure.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Tools & Tech:</strong> Django, Python, PostgreSQL, HTML5, CSS3, JavaScript, Bootstrap, LINE Messaging API, Figma, GitHub</li>
+                    </ul>
+                    <div class="project-actions">
+                        <a class="project-btn project-btn-demo" href="https://www.figma.com/proto/ozO6fIHf4kVpGhM5CMUrXz/CN332?node-id=0-1&t=bxEUX6ScdwMKQKGM-1" target="_blank" rel="noreferrer">Figma Prototype</a>
+                        <a class="project-btn project-btn-code" href="project/Final_CN332.pdf" target="_blank" rel="noreferrer">Presentation Slides</a>
+                        <a class="project-btn project-btn-code" href="https://github.com/6410685025/CN332_OOAD_Project" target="_blank" rel="noreferrer">GitHub Repo</a>
+                    </div>
+
+                    <!-- System Preview Screenshot Slider for Homie -->
+                    <div class="screenshot-slider" id="homie-screenshots">
+                        <div class="screenshot-header">
+                            <div class="mac-controls">
+                                <span class="mac-dot red"></span>
+                                <span class="mac-dot yellow"></span>
+                                <span class="mac-dot green"></span>
+                            </div>
+                            <span class="screenshot-title">System Preview</span>
+                            <span class="screenshot-counter" id="homie-counter">1 / 11</span>
+                        </div>
+                        <div class="screenshot-viewport">
+                            <button class="slider-arrow prev-arrow" id="homie-prev" aria-label="Previous Screenshot">
+                                <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                            </button>
+                            <div class="screenshot-track" id="homie-track">
+                                <div class="screenshot-slide"><img src="project_pic/Homie/login.png" alt="Login Page"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Homie/dashboard.png" alt="Dashboard Summary"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Homie/announcements.png" alt="Announcements"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Homie/facilities.png" alt="Facilities Bookings"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Homie/facilities_book.png" alt="Booking Facility Form"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Homie/packages.png" alt="Packages Mailroom"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Homie/repairs.png" alt="Repairs Service List"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Homie/repairs_form.png" alt="Report Repair Form"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Homie/lost-found.png" alt="Lost and Found Items"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Homie/detail.png" alt="Item Detailed View"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Homie/settings.png" alt="Juristic Account Settings"></div>
+                            </div>
+                            <button class="slider-arrow next-arrow" id="homie-next" aria-label="Next Screenshot">
+                                <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                            </button>
+                        </div>
+                        <div class="screenshot-dots" id="homie-dots"></div>
+                    </div>
+                </article>
+
+                <!-- TU Reports Project -->
+                <article class="project-card card-surface reveal-scale reveal-delay-200">
+                    <span class="card-tag">Software Engineering & Frontend</span>
+                    <h3>TU Reports — University Issue Reporting Platform</h3>
+                    <ul class="case-list">
+                        <li><strong>Course:</strong> CN331 Software Engineering (Group Project)</li>
+                        <li><strong>Problem:</strong> Thammasat University lacked a centralized, official system for students and staff to report campus maintenance issues (e.g., broken facilities, damaged pathways). Reports were scattered across personal chats or phone calls, resulting in lost reports and untrackable statuses.</li>
+                        <li><strong>Solution:</strong> Developed a centralized issue reporting and tracking web application specifically for the university. Reporters can submit tickets with descriptions, GPS locations, and photo attachments. Technicians can view assigned jobs, update progress, and submit photo proof of the resolution. Admins can view heatmaps, statistics, and export logs.</li>
+                        <li><strong>Software Engineering Process:</strong> 
+                            <ul>
+                                <li><strong>Bare Minimum Framework:</strong> Built using clean Agile requirements analysis and core minimum feature prioritization.</li>
+                                <li><strong>SMART User Stories:</strong> Decomposed and mapped requirements into specific, measurable, achievable, relevant, and time-bound user stories.</li>
+                            </ul>
+                        </li>
+                        <li><strong>My Role (Frontend Developer):</strong> Collaborated on system analysis and design. Took sole responsibility for the <strong>Frontend development</strong> of the web application, building intuitive user forms, real-time ticket lists, technician workboards, and admin reporting dashboards.</li>
+                        <li><strong>Tools & Tech:</strong> Django, PostgreSQL, HTML5, CSS3, JavaScript, Bootstrap, GitHub</li>
+                    </ul>
+                    <div class="project-actions">
+                        <a class="project-btn project-btn-demo" href="https://www.youtube.com/watch?v=ZvMtro-14MU" target="_blank" rel="noreferrer">System Demo</a>
+                        <a class="project-btn project-btn-code" href="project/final_report_TUReports.pdf" target="_blank" rel="noreferrer">Final Report</a>
+                        <a class="project-btn project-btn-code" href="https://github.com/6610685098/TU_Reports" target="_blank" rel="noreferrer">GitHub Repo</a>
+                    </div>
+
+                    <!-- System Preview Screenshot Slider for TU Reports -->
+                    <div class="screenshot-slider" id="tureports-screenshots">
+                        <div class="screenshot-header">
+                            <div class="mac-controls">
+                                <span class="mac-dot red"></span>
+                                <span class="mac-dot yellow"></span>
+                                <span class="mac-dot green"></span>
+                            </div>
+                            <span class="screenshot-title">System Preview</span>
+                            <span class="screenshot-counter" id="tureports-counter">1 / 6</span>
+                        </div>
+                        <div class="screenshot-viewport">
+                            <button class="slider-arrow prev-arrow" id="tureports-prev" aria-label="Previous Screenshot">
+                                <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                            </button>
+                            <div class="screenshot-track" id="tureports-track">
+                                <div class="screenshot-slide"><img src="project_pic/TU_Reports/login.png" alt="Login Page"></div>
+                                <div class="screenshot-slide"><img src="project_pic/TU_Reports/dashboard.png" alt="Dashboard Summary"></div>
+                                <div class="screenshot-slide"><img src="project_pic/TU_Reports/create.png" alt="Submit Issue Form"></div>
+                                <div class="screenshot-slide"><img src="project_pic/TU_Reports/my_ticket.png" alt="My Reported Tickets"></div>
+                                <div class="screenshot-slide"><img src="project_pic/TU_Reports/detail.png" alt="Ticket Detail Page"></div>
+                                <div class="screenshot-slide"><img src="project_pic/TU_Reports/noti.png" alt="LINE Notification Preview"></div>
+                            </div>
+                            <button class="slider-arrow next-arrow" id="tureports-next" aria-label="Next Screenshot">
+                                <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                            </button>
+                        </div>
+                        <div class="screenshot-dots" id="tureports-dots"></div>
+                    </div>
+                </article>
+
+                <!-- Data Center Project -->
+                <article class="project-card card-surface reveal-scale reveal-delay-300">
+                    <span class="card-tag">Infrastructure & System Design</span>
+                    <h3>Dormitory-to-Data Center Conversion Simulator</h3>
+                    <ul class="case-list">
+                        <li><strong>Course:</strong> CN477 Data Center Management</li>
+                        <li><strong>Project Concept:</strong> Simulated the physical, electrical, and thermal engineering conversion of a standard bedroom dormitory into a professional, enterprise-grade data center server room.</li>
+                        <li><strong>System Designs:</strong> Designed and simulated key server room systems inside the dormitory room, including Server Rack layouts, InRow Cooling systems with N+1 redundancy, PDU and backup UPS power distributions, FM200 clean agent gas fire suppression systems, and 4-layer physical security access controls.</li>
+                        <li><strong>Budget & Costing:</strong> Estimated the entire implementation budget for hardware components and installation, calculating a total projected cost of over 7.4 Million Baht.</li>
+                        <li><strong>Field Trip Experience:</strong> Visited the real-world enterprise data center of <strong>INET (Internet Thailand Public Company Limited)</strong> to study standard industry layouts, containment, power distribution, and fire suppression systems in operation.</li>
+                    </ul>
+                    <div class="project-actions">
+                        <a class="project-btn project-btn-code" href="project/data center.pdf" target="_blank" rel="noreferrer">View Project</a>
+                    </div>
+
+                    <!-- System Preview Screenshot Slider for Data Center -->
+                    <div class="screenshot-slider" id="dc-screenshots">
+                        <div class="screenshot-header">
+                            <div class="mac-controls">
+                                <span class="mac-dot red"></span>
+                                <span class="mac-dot yellow"></span>
+                                <span class="mac-dot green"></span>
+                            </div>
+                            <span class="screenshot-title">System Preview</span>
+                            <span class="screenshot-counter" id="dc-counter">1 / 16</span>
+                        </div>
+                        <div class="screenshot-viewport">
+                            <button class="slider-arrow prev-arrow" id="dc-prev" aria-label="Previous Screenshot">
+                                <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                            </button>
+                            <div class="screenshot-track" id="dc-track">
+                                <div class="screenshot-slide"><img src="project_pic/DC/46.png" alt="Data Center Layout Page 1"></div>
+                                <div class="screenshot-slide"><img src="project_pic/DC/47.png" alt="Data Center Layout Page 2"></div>
+                                <div class="screenshot-slide"><img src="project_pic/DC/48.png" alt="Data Center Layout Page 3"></div>
+                                <div class="screenshot-slide"><img src="project_pic/DC/49.png" alt="Data Center Layout Page 4"></div>
+                                <div class="screenshot-slide"><img src="project_pic/DC/50.png" alt="Data Center Layout Page 5"></div>
+                                <div class="screenshot-slide"><img src="project_pic/DC/51.png" alt="Data Center Layout Page 6"></div>
+                                <div class="screenshot-slide"><img src="project_pic/DC/52.png" alt="Data Center Layout Page 7"></div>
+                                <div class="screenshot-slide"><img src="project_pic/DC/53.png" alt="Data Center Layout Page 8"></div>
+                                <div class="screenshot-slide"><img src="project_pic/DC/54.png" alt="Data Center Layout Page 9"></div>
+                                <div class="screenshot-slide"><img src="project_pic/DC/55.png" alt="Data Center Layout Page 10"></div>
+                                <div class="screenshot-slide"><img src="project_pic/DC/56.png" alt="Data Center Layout Page 11"></div>
+                                <div class="screenshot-slide"><img src="project_pic/DC/57.png" alt="Data Center Layout Page 12"></div>
+                                <div class="screenshot-slide"><img src="project_pic/DC/58.png" alt="Data Center Layout Page 13"></div>
+                                <div class="screenshot-slide"><img src="project_pic/DC/59.png" alt="Data Center Layout Page 14"></div>
+                                <div class="screenshot-slide"><img src="project_pic/DC/60.png" alt="Data Center Layout Page 15"></div>
+                                <div class="screenshot-slide"><img src="project_pic/DC/61.png" alt="Data Center Layout Page 16"></div>
+                            </div>
+                            <button class="slider-arrow next-arrow" id="dc-next" aria-label="Next Screenshot">
+                                <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                            </button>
+                        </div>
+                        <div class="screenshot-dots" id="dc-dots"></div>
+                    </div>
+                </article>
+
+                <!-- Tarot Daily Project -->
+                <article class="project-card card-surface reveal-scale reveal-delay-400">
+                    <span class="card-tag">Personal Hobby Project & Full Stack Development & UI/UX Design</span>
+                    <h3>Tarot Daily — Tarot Reading Practice & Card Meaning Dictionary</h3>
+                    <ul class="case-list">
+                        <li><strong>Project Motivation:</strong> Built out of a personal passion for tarot card reading. Designed as an interactive training and practice platform to study Arcana symbols, log daily draws, perform self-readings, and master card interpretation.</li>
+                        <li><strong>Key Features:</strong>
+                            <ul>
+                                <li><strong>Daily Card Draw:</strong> Draw a single daily card for morning reflection, displaying upright and reversed card interpretations.</li>
+                                <li><strong>Interactive Self-Reading:</strong> Drag-and-drop tarot spreads (such as Past-Present-Future layouts) for personalized readings.</li>
+                                <li><strong>Tarot Encyclopedia Library:</strong> A searchable index containing detailed meanings, element attributes, and key concepts of all 78 Major and Minor Arcana cards.</li>
+                                <li><strong>Arcana Quiz Game:</strong> Interactive learning quizzes testing speed and accuracy in interpreting tarot card symbols and card meanings.</li>
+                                <li><strong>History Logs & Profile:</strong> Saves history of past draws, readings, and quiz scores to track user learning progress over time.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Tools & Tech:</strong> Django, Python, PostgreSQL, HTML5, CSS3, JavaScript, Bootstrap, GitHub</li>
+                    </ul>
+                    <div class="project-actions">
+                        <a class="project-btn project-btn-code" href="https://github.com/6410615014/tarot-daily" target="_blank" rel="noreferrer">GitHub Repo</a>
+                    </div>
+
+                    <!-- System Preview Screenshot Slider for Tarot Daily -->
+                    <div class="screenshot-slider" id="tarot-screenshots">
+                        <div class="screenshot-header">
+                            <div class="mac-controls">
+                                <span class="mac-dot red"></span>
+                                <span class="mac-dot yellow"></span>
+                                <span class="mac-dot green"></span>
+                            </div>
+                            <span class="screenshot-title">System Preview</span>
+                            <span class="screenshot-counter" id="tarot-counter">1 / 11</span>
+                        </div>
+                        <div class="screenshot-viewport">
+                            <button class="slider-arrow prev-arrow" id="tarot-prev" aria-label="Previous Screenshot">
+                                <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                            </button>
+                            <div class="screenshot-track" id="tarot-track">
+                                <div class="screenshot-slide"><img src="project_pic/Tarot/first.png" alt="Welcome Portal Page"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Tarot/firsttt.png" alt="Home Dashboard"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Tarot/start.png" alt="Get Started Page"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Tarot/login.png" alt="Login Page"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Tarot/register.png" alt="Register Page"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Tarot/card_daily.png" alt="Daily Card Draw Page"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Tarot/self-reading.png" alt="Interactive Self-Reading Spread"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Tarot/detail.png" alt="Card Meaning Detail Page"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Tarot/library.png" alt="Tarot Card Encyclopedia Library"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Tarot/quiz.png" alt="Arcana Card Quiz Page"></div>
+                                <div class="screenshot-slide"><img src="project_pic/Tarot/profile.png" alt="User Profile & History Log"></div>
+                            </div>
+                            <button class="slider-arrow next-arrow" id="tarot-next" aria-label="Next Screenshot">
+                                <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                            </button>
+                        </div>
+                        <div class="screenshot-dots" id="tarot-dots"></div>
+                    </div>
                 </article>
             </div>
+            <section id="certificates" class="content-section">
+                <div class="section-heading reveal">
+                    <p class="section-label">Certificates</p>
+                    <h2>My Certifications </h2>
+                
+                </div>
+
+                <!-- 3D Coverflow Carousel -->
+                <div class="carousel-container reveal-scale">
+                <button class="carousel-nav prev-btn" aria-label="Previous Slide">
+                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                </button>
+                
+                <div class="carousel-track" id="carousel-track">
+                    <!-- Slide 1: Living with AI -->
+                    <div class="carousel-slide">
+                        <article class="certificate-card card-surface">
+                            <img class="certificate-image" src="certificates/certificate_AI.jpg" alt="Living with AI Certificate">
+                            <h3>Living with AI: What You Need to Know and Understand</h3>
+                            <p>Chulalongkorn University (NEURON0128)</p>
+                            <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_AI.jpg" data-title="Living with AI: What You Need to Know and Understand - Chulalongkorn University">View Certificate</button>
+                        </article>
+                    </div>
+
+                    <!-- Slide 2: Cloud Computing -->
+                    <div class="carousel-slide">
+                        <article class="certificate-card card-surface">
+                            <img class="certificate-image" src="certificates/certificate_cloud.jpg" alt="Cloud Computing for Everyone Certificate">
+                            <h3>Cloud Computing for Everyone</h3>
+                            <p>Chulalongkorn University (NEURON0102)</p>
+                            <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_cloud.jpg" data-title="Cloud Computing for Everyone - Chulalongkorn University">View Certificate</button>
+                        </article>
+                    </div>
+
+                    <!-- Slide 3: Database SQL -->
+                    <div class="carousel-slide">
+                        <article class="certificate-card card-surface">
+                            <img class="certificate-image" src="certificates/certificate_database.jpg" alt="Database Management with SQL Certificate">
+                            <h3>Database Management with SQL</h3>
+                            <p>Chulalongkorn University (NEURON0119)</p>
+                            <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_database.jpg" data-title="Database Management with SQL - Chulalongkorn University">View Certificate</button>
+                        </article>
+                    </div>
+
+                    <!-- Slide 4: HTML CSS -->
+                    <div class="carousel-slide">
+                        <article class="certificate-card card-surface">
+                            <img class="certificate-image" src="certificates/certificate_html_css.jpg" alt="Web Page Authoring with HTML and CSS Certificate">
+                            <h3>Web Page Authoring with HTML and CSS</h3>
+                            <p>Chulalongkorn University (NEURON0117)</p>
+                            <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_html_css.jpg" data-title="Web Page Authoring with HTML and CSS - Chulalongkorn University">View Certificate</button>
+                        </article>
+                    </div>
+
+                    <!-- Slide 5: Thai MOOC HTML CSS -->
+                    <div class="carousel-slide">
+                        <article class="certificate-card card-surface">
+                            <img class="certificate-image" src="certificates/certificate_html_css_thaiMOOC.png" alt="HTML and CSS Thai MOOC Certificate">
+                            <h3>Web Page Authoring: HTML and CSS</h3>
+                            <p>Thai MOOC (2024)</p>
+                            <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_html_css_thaiMOOC.png" data-title="Web Page Authoring: HTML and CSS - Thai MOOC">View Certificate</button>
+                        </article>
+                    </div>
+
+                    <!-- Slide 6: JavaScript -->
+                    <div class="carousel-slide">
+                        <article class="certificate-card card-surface">
+                            <img class="certificate-image" src="certificates/certificate_javaScript.jpg" alt="Programming with JavaScript Certificate">
+                            <h3>Programming with JavaScript</h3>
+                            <p>Chulalongkorn University (NEURON0118)</p>
+                            <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_javaScript.jpg" data-title="Programming with JavaScript - Chulalongkorn University">View Certificate</button>
+                        </article>
+                    </div>
+
+                    <!-- Slide 7: Software Project Management -->
+                    <div class="carousel-slide">
+                        <article class="certificate-card card-surface">
+                            <img class="certificate-image" src="certificates/certificate_pm.jpg" alt="Software Project Management Certificate">
+                            <h3>Software Project Management Essentials</h3>
+                            <p>Chulalongkorn University (NEURON0122)</p>
+                            <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_pm.jpg" data-title="Software Project Management Essentials - Chulalongkorn University">View Certificate</button>
+                        </article>
+                    </div>
+                </div>
+                
+                <button class="carousel-nav next-btn" aria-label="Next Slide">
+                    <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                </button>
+            </div>
+            
+            <!-- Indicators -->
+            <div class="carousel-dots" id="carousel-dots"></div>
         </section>
-        <section id="certificates" class="content-section">
-            <div class="section-heading">
-                <p class="section-label">Certificates</p>
-                <h2>My Certifications</h2>
-            </div>
 
-            <div class="certificate-grid">
-                <!-- Living with AI -->
-                <article class="certificate-card card-surface">
-                    <img class="certificate-image" src="certificates/certificate_AI.jpg" alt="Living with AI Certificate">
-                    <h3>Living with AI: What You Need to Know and Understand</h3>
-                    <p>Chulalongkorn University (NEURON0128)</p>
-                    <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_AI.jpg" data-title="Living with AI: What You Need to Know and Understand - Chulalongkorn University">View Certificate</button>
-                </article>
-
-                <!-- Cloud Computing -->
-                <article class="certificate-card card-surface">
-                    <img class="certificate-image" src="certificates/certificate_cloud.jpg" alt="Cloud Computing for Everyone Certificate">
-                    <h3>Cloud Computing for Everyone</h3>
-                    <p>Chulalongkorn University (NEURON0102)</p>
-                    <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_cloud.jpg" data-title="Cloud Computing for Everyone - Chulalongkorn University">View Certificate</button>
-                </article>
-
-                <!-- Database SQL -->
-                <article class="certificate-card card-surface">
-                    <img class="certificate-image" src="certificates/certificate_database.jpg" alt="Database Management with SQL Certificate">
-                    <h3>Database Management with SQL</h3>
-                    <p>Chulalongkorn University (NEURON0119)</p>
-                    <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_database.jpg" data-title="Database Management with SQL - Chulalongkorn University">View Certificate</button>
-                </article>
-
-                <!-- HTML CSS -->
-                <article class="certificate-card card-surface">
-                    <img class="certificate-image" src="certificates/certificate_html_css.jpg" alt="Web Page Authoring with HTML and CSS Certificate">
-                    <h3>Web Page Authoring with HTML and CSS</h3>
-                    <p>Chulalongkorn University (NEURON0117)</p>
-                    <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_html_css.jpg" data-title="Web Page Authoring with HTML and CSS - Chulalongkorn University">View Certificate</button>
-                </article>
-
-                <!-- Thai MOOC HTML CSS -->
-                <article class="certificate-card card-surface">
-                    <img class="certificate-image" src="certificates/certificate_html_css_thaiMOOC.png" alt="HTML and CSS Thai MOOC Certificate">
-                    <h3>Web Page Authoring: HTML and CSS</h3>
-                    <p>Thai MOOC (2024)</p>
-                    <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_html_css_thaiMOOC.png" data-title="Web Page Authoring: HTML and CSS - Thai MOOC">View Certificate</button>
-                </article>
-
-                <!-- JavaScript -->
-                <article class="certificate-card card-surface">
-                    <img class="certificate-image" src="certificates/certificate_javaScript.jpg" alt="Programming with JavaScript Certificate">
-                    <h3>Programming with JavaScript</h3>
-                    <p>Chulalongkorn University (NEURON0118)</p>
-                    <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_javaScript.jpg" data-title="Programming with JavaScript - Chulalongkorn University">View Certificate</button>
-                </article>
-
-                <!-- Software Project Management -->
-                <article class="certificate-card card-surface">
-                    <img class="certificate-image" src="certificates/certificate_pm.jpg" alt="Software Project Management Certificate">
-                    <h3>Software Project Management Essentials</h3>
-                    <p>Chulalongkorn University (NEURON0122)</p>
-                    <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_pm.jpg" data-title="Software Project Management Essentials - Chulalongkorn University">View Certificate</button>
-                </article>
-            </div>
-        </section>
-
-        <section id="contact" class="contact-band card-surface">
+        <section id="contact" class="contact-band card-surface reveal">
             <div class="contact-intro">
                 <p class="section-label">Contact</p>
               
@@ -334,6 +862,188 @@
 
     <script>
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // 3D Coverflow Carousel Logic
+        const track = document.getElementById('carousel-track');
+        const container = document.querySelector('.carousel-container');
+        const slides = Array.from(track.children);
+        const dotsContainer = document.getElementById('carousel-dots');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        
+        let currentIndex = 0;
+        let autoPlayTimer = null;
+        const autoPlayInterval = 3500; // 3.5 seconds
+        
+        // Generate dots
+        slides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.classList.add('carousel-dot');
+            if (idx === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                goToSlide(idx);
+                resetAutoPlay();
+            });
+            dotsContainer.appendChild(dot);
+        });
+        
+        const dots = Array.from(dotsContainer.children);
+        
+        function updateCarousel() {
+            slides.forEach((slide, idx) => {
+                // Reset classes
+                slide.className = 'carousel-slide';
+                
+                const offset = idx - currentIndex;
+                
+                if (offset === 0) {
+                    slide.classList.add('active');
+                } else if (offset === -1 || (offset === slides.length - 1 && currentIndex === 0)) {
+                    slide.classList.add('prev-1');
+                } else if (offset === 1 || (offset === -(slides.length - 1) && currentIndex === slides.length - 1)) {
+                    slide.classList.add('next-1');
+                } else if (offset === -2 || (offset === slides.length - 2 && currentIndex <= 1)) {
+                    slide.classList.add('prev-2');
+                } else if (offset === 2 || (offset === -(slides.length - 2) && currentIndex >= slides.length - 2)) {
+                    slide.classList.add('next-2');
+                }
+            });
+            
+            // Update dots
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === currentIndex);
+            });
+        }
+        
+        function goToSlide(index) {
+            if (index < 0) {
+                currentIndex = slides.length - 1;
+            } else if (index >= slides.length) {
+                currentIndex = 0;
+            } else {
+                currentIndex = index;
+            }
+            updateCarousel();
+        }
+        
+        // Auto-play control
+        function startAutoPlay() {
+            if (prefersReducedMotion) return;
+            stopAutoPlay();
+            autoPlayTimer = setInterval(() => {
+                goToSlide(currentIndex + 1);
+            }, autoPlayInterval);
+        }
+        
+        function stopAutoPlay() {
+            if (autoPlayTimer) {
+                clearInterval(autoPlayTimer);
+                autoPlayTimer = null;
+            }
+        }
+        
+        function resetAutoPlay() {
+            stopAutoPlay();
+            startAutoPlay();
+        }
+        
+        // Pause auto-play on hover
+        container.addEventListener('mouseenter', stopAutoPlay);
+        container.addEventListener('mouseleave', startAutoPlay);
+        
+        prevBtn.addEventListener('click', () => {
+            goToSlide(currentIndex - 1);
+            resetAutoPlay();
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            goToSlide(currentIndex + 1);
+            resetAutoPlay();
+        });
+        
+        // Allow clicking side slides to navigate to them
+        slides.forEach((slide, idx) => {
+            slide.addEventListener('click', (e) => {
+                if (e.target.classList.contains('view-cert-btn')) return;
+                
+                if (idx !== currentIndex) {
+                    goToSlide(idx);
+                    resetAutoPlay();
+                }
+            });
+        });
+        
+        // Touch & Drag Swiping support
+        let startX = 0;
+        let isDragging = false;
+        
+        // Prevent default browser dragging for images & links
+        track.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+        
+        track.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+        }, { passive: true });
+        
+        track.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
+            const endX = e.changedTouches[0].clientX;
+            const diffX = endX - startX;
+            if (Math.abs(diffX) > 30) { // Lowered threshold from 50 to 30 for easier swipe
+                if (diffX > 0) {
+                    goToSlide(currentIndex - 1); // Swipe right -> Go to prev
+                } else {
+                    goToSlide(currentIndex + 1); // Swipe left -> Go to next
+                }
+                resetAutoPlay();
+            }
+            isDragging = false;
+        }, { passive: true });
+        
+        // Mouse drag support (improved global listeners for desktop)
+        track.addEventListener('mousedown', (e) => {
+            if (e.button !== 0) return; // Only trigger dragging with left mouse button
+            startX = e.clientX;
+            isDragging = true;
+            track.style.cursor = 'grabbing';
+        });
+        
+        window.addEventListener('mouseup', (e) => {
+            if (!isDragging) return;
+            const endX = e.clientX;
+            const diffX = endX - startX;
+            if (Math.abs(diffX) > 30) { // Lowered threshold from 50 to 30 for easier drag
+                if (diffX > 0) {
+                    goToSlide(currentIndex - 1);
+                } else {
+                    goToSlide(currentIndex + 1);
+                }
+                resetAutoPlay();
+            }
+            isDragging = false;
+            track.style.cursor = 'grab';
+        });
+        
+        // Keyboard arrow navigation
+        document.addEventListener('keydown', (e) => {
+            const rect = container.getBoundingClientRect();
+            const inViewport = rect.top < window.innerHeight && rect.bottom > 0;
+            if (!inViewport) return;
+            
+            if (e.key === 'ArrowLeft') {
+                goToSlide(currentIndex - 1);
+                resetAutoPlay();
+            } else if (e.key === 'ArrowRight') {
+                goToSlide(currentIndex + 1);
+                resetAutoPlay();
+            }
+        });
+        
+        // Initialize
+        updateCarousel();
+        startAutoPlay();
 
         // Modal Logic for Certificates
         const certModal = document.getElementById('cert-modal');
@@ -384,6 +1094,7 @@
         const skillCards = document.querySelectorAll('.skill-card');
         const experienceCards = document.querySelectorAll('.experience-card');
         const depthCards = document.querySelectorAll('.card-surface, .project-card, .certificate-card, .skill-card');
+        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .skill-card, .experience-card');
 
         skillCards.forEach(function (card, index) {
             card.classList.add('reveal-item');
@@ -396,28 +1107,24 @@
         });
 
         if (!prefersReducedMotion && 'IntersectionObserver' in window) {
-            const cardObserver = new IntersectionObserver(function (entries, observer) {
+            const scrollObserver = new IntersectionObserver(function (entries, observer) {
                 entries.forEach(function (entry) {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
                         observer.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.15 });
-
-            skillCards.forEach(function (card) {
-                cardObserver.observe(card);
+            }, { 
+                threshold: 0.1, 
+                rootMargin: '0px 0px -50px 0px' 
             });
 
-            experienceCards.forEach(function (card) {
-                cardObserver.observe(card);
+            revealElements.forEach(function (el) {
+                scrollObserver.observe(el);
             });
         } else {
-            skillCards.forEach(function (card) {
-                card.classList.add('is-visible');
-            });
-            experienceCards.forEach(function (card) {
-                card.classList.add('is-visible');
+            revealElements.forEach(function (el) {
+                el.classList.add('is-visible');
             });
         }
 
@@ -451,6 +1158,520 @@
                 });
             });
         }
+        // Screenshot Slider Logic
+        const ssTrack = document.getElementById('realtime-track');
+        const ssSlides = Array.from(ssTrack.children);
+        const ssDotsContainer = document.getElementById('realtime-dots');
+        const ssPrevBtn = document.querySelector('.screenshot-slider .prev-arrow');
+        const ssNextBtn = document.querySelector('.screenshot-slider .next-arrow');
+        const ssTitle = document.querySelector('.screenshot-title');
+        const ssCounter = document.querySelector('.screenshot-counter');
+        
+        let ssIndex = 0;
+        
+        // Generate dots for screenshots
+        ssSlides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.classList.add('screenshot-dot');
+            if (idx === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                goToScreenshot(idx);
+            });
+            ssDotsContainer.appendChild(dot);
+        });
+        
+        const ssDots = Array.from(ssDotsContainer.children);
+        
+        function updateScreenshotSlider() {
+            // Slide track
+            ssTrack.style.transform = `translateX(-${ssIndex * 100}%)`;
+            
+            // Update dots
+            ssDots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === ssIndex);
+            });
+            
+            // Update header info
+            ssTitle.textContent = 'System Preview';
+            ssCounter.textContent = `${ssIndex + 1} / ${ssSlides.length}`;
+        }
+        
+        function goToScreenshot(idx) {
+            if (idx < 0) {
+                ssIndex = ssSlides.length - 1;
+            } else if (idx >= ssSlides.length) {
+                ssIndex = 0;
+            } else {
+                ssIndex = idx;
+            }
+            updateScreenshotSlider();
+        }
+        
+        ssPrevBtn.addEventListener('click', () => {
+            goToScreenshot(ssIndex - 1);
+        });
+        
+        ssNextBtn.addEventListener('click', () => {
+            goToScreenshot(ssIndex + 1);
+        });
+        
+        // Support swipe/drag on screenshots track
+        let ssStartX = 0;
+        let ssIsDragging = false;
+        
+        ssTrack.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+        
+        ssTrack.addEventListener('touchstart', (e) => {
+            ssStartX = e.touches[0].clientX;
+            ssIsDragging = true;
+        }, { passive: true });
+        
+        ssTrack.addEventListener('touchend', (e) => {
+            if (!ssIsDragging) return;
+            const endX = e.changedTouches[0].clientX;
+            const diffX = endX - ssStartX;
+            if (Math.abs(diffX) > 40) {
+                if (diffX > 0) {
+                    goToScreenshot(ssIndex - 1);
+                } else {
+                    goToScreenshot(ssIndex + 1);
+                }
+            }
+            ssIsDragging = false;
+        }, { passive: true });
+        
+        ssTrack.addEventListener('mousedown', (e) => {
+            if (e.button !== 0) return;
+            ssStartX = e.clientX;
+            ssIsDragging = true;
+        });
+        
+        window.addEventListener('mouseup', (e) => {
+            if (!ssIsDragging) return;
+            const endX = e.clientX;
+            const diffX = endX - ssStartX;
+            if (Math.abs(diffX) > 40) {
+                if (diffX > 0) {
+                    goToScreenshot(ssIndex - 1);
+                } else {
+                    goToScreenshot(ssIndex + 1);
+                }
+            }
+            ssIsDragging = false;
+        });
+        
+        // Initialize
+        updateScreenshotSlider();
+
+        // Homie Screenshot Slider Logic
+        const hTrack = document.getElementById('homie-track');
+        const hSlides = Array.from(hTrack.children);
+        const hDotsContainer = document.getElementById('homie-dots');
+        const hPrevBtn = document.getElementById('homie-prev');
+        const hNextBtn = document.getElementById('homie-next');
+        const hCounter = document.getElementById('homie-counter');
+        
+        let hIndex = 0;
+        
+        // Generate dots for Homie screenshots
+        hSlides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.classList.add('screenshot-dot');
+            if (idx === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                goToHomieScreenshot(idx);
+            });
+            hDotsContainer.appendChild(dot);
+        });
+        
+        const hDots = Array.from(hDotsContainer.children);
+        
+        function updateHomieSlider() {
+            hTrack.style.transform = `translateX(-${hIndex * 100}%)`;
+            
+            hDots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === hIndex);
+            });
+            
+            hCounter.textContent = `${hIndex + 1} / ${hSlides.length}`;
+        }
+        
+        function goToHomieScreenshot(idx) {
+            if (idx < 0) {
+                hIndex = hSlides.length - 1;
+            } else if (idx >= hSlides.length) {
+                hIndex = 0;
+            } else {
+                hIndex = idx;
+            }
+            updateHomieSlider();
+        }
+        
+        hPrevBtn.addEventListener('click', () => {
+            goToHomieScreenshot(hIndex - 1);
+        });
+        
+        hNextBtn.addEventListener('click', () => {
+            goToHomieScreenshot(hIndex + 1);
+        });
+        
+        // Support swipe/drag on Homie track
+        let hStartX = 0;
+        let hIsDragging = false;
+        
+        hTrack.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+        
+        hTrack.addEventListener('touchstart', (e) => {
+            hStartX = e.touches[0].clientX;
+            hIsDragging = true;
+        }, { passive: true });
+        
+        hTrack.addEventListener('touchend', (e) => {
+            if (!hIsDragging) return;
+            const endX = e.changedTouches[0].clientX;
+            const diffX = endX - hStartX;
+            if (Math.abs(diffX) > 40) {
+                if (diffX > 0) {
+                    goToHomieScreenshot(hIndex - 1);
+                } else {
+                    goToHomieScreenshot(hIndex + 1);
+                }
+            }
+            hIsDragging = false;
+        }, { passive: true });
+        
+        hTrack.addEventListener('mousedown', (e) => {
+            if (e.button !== 0) return;
+            hStartX = e.clientX;
+            hIsDragging = true;
+        });
+        
+        window.addEventListener('mouseup', (e) => {
+            if (!hIsDragging) return;
+            const endX = e.clientX;
+            const diffX = endX - hStartX;
+            if (Math.abs(diffX) > 40) {
+                if (diffX > 0) {
+                    goToHomieScreenshot(hIndex - 1);
+                } else {
+                    goToHomieScreenshot(hIndex + 1);
+                }
+            }
+            hIsDragging = false;
+        });
+        
+        // Initialize Homie slider
+        updateHomieSlider();
+
+        // TU Reports Screenshot Slider Logic
+        const tuTrack = document.getElementById('tureports-track');
+        const tuSlides = Array.from(tuTrack.children);
+        const tuDotsContainer = document.getElementById('tureports-dots');
+        const tuPrevBtn = document.getElementById('tureports-prev');
+        const tuNextBtn = document.getElementById('tureports-next');
+        const tuCounter = document.getElementById('tureports-counter');
+        
+        let tuIndex = 0;
+        
+        // Generate dots for TU Reports screenshots
+        tuSlides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.classList.add('screenshot-dot');
+            if (idx === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                goToTUScreenshot(idx);
+            });
+            tuDotsContainer.appendChild(dot);
+        });
+        
+        const tuDots = Array.from(tuDotsContainer.children);
+        
+        function updateTUSlider() {
+            tuTrack.style.transform = `translateX(-${tuIndex * 100}%)`;
+            
+            tuDots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === tuIndex);
+            });
+            
+            tuCounter.textContent = `${tuIndex + 1} / ${tuSlides.length}`;
+        }
+        
+        function goToTUScreenshot(idx) {
+            if (idx < 0) {
+                tuIndex = tuSlides.length - 1;
+            } else if (idx >= tuSlides.length) {
+                tuIndex = 0;
+            } else {
+                tuIndex = idx;
+            }
+            updateTUSlider();
+        }
+        
+        tuPrevBtn.addEventListener('click', () => {
+            goToTUScreenshot(tuIndex - 1);
+        });
+        
+        tuNextBtn.addEventListener('click', () => {
+            goToTUScreenshot(tuIndex + 1);
+        });
+        
+        // Support swipe/drag on TU Reports track
+        let tuStartX = 0;
+        let tuIsDragging = false;
+        
+        tuTrack.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+        
+        tuTrack.addEventListener('touchstart', (e) => {
+            tuStartX = e.touches[0].clientX;
+            tuIsDragging = true;
+        }, { passive: true });
+        
+        tuTrack.addEventListener('touchend', (e) => {
+            if (!tuIsDragging) return;
+            const endX = e.changedTouches[0].clientX;
+            const diffX = endX - tuStartX;
+            if (Math.abs(diffX) > 40) {
+                if (diffX > 0) {
+                    goToTUScreenshot(tuIndex - 1);
+                } else {
+                    goToTUScreenshot(tuIndex + 1);
+                }
+            }
+            tuIsDragging = false;
+        }, { passive: true });
+        
+        tuTrack.addEventListener('mousedown', (e) => {
+            if (e.button !== 0) return;
+            tuStartX = e.clientX;
+            tuIsDragging = true;
+        });
+        
+        window.addEventListener('mouseup', (e) => {
+            if (!tuIsDragging) return;
+            const endX = e.clientX;
+            const diffX = endX - tuStartX;
+            if (Math.abs(diffX) > 40) {
+                if (diffX > 0) {
+                    goToTUScreenshot(tuIndex - 1);
+                } else {
+                    goToTUScreenshot(tuIndex + 1);
+                }
+            }
+            tuIsDragging = false;
+        });
+        
+        // Initialize TU Reports slider
+        updateTUSlider();
+
+        // Data Center Screenshot Slider Logic
+        const dcTrack = document.getElementById('dc-track');
+        const dcSlides = Array.from(dcTrack.children);
+        const dcDotsContainer = document.getElementById('dc-dots');
+        const dcPrevBtn = document.getElementById('dc-prev');
+        const dcNextBtn = document.getElementById('dc-next');
+        const dcCounter = document.getElementById('dc-counter');
+        
+        let dcIndex = 0;
+        
+        // Generate dots for Data Center screenshots
+        dcSlides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.classList.add('screenshot-dot');
+            if (idx === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                goToDCScreenshot(idx);
+            });
+            dcDotsContainer.appendChild(dot);
+        });
+        
+        const dcDots = Array.from(dcDotsContainer.children);
+        
+        function updateDCSlider() {
+            dcTrack.style.transform = `translateX(-${dcIndex * 100}%)`;
+            
+            dcDots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === dcIndex);
+            });
+            
+            dcCounter.textContent = `${dcIndex + 1} / ${dcSlides.length}`;
+        }
+        
+        function goToDCScreenshot(idx) {
+            if (idx < 0) {
+                dcIndex = dcSlides.length - 1;
+            } else if (idx >= dcSlides.length) {
+                dcIndex = 0;
+            } else {
+                dcIndex = idx;
+            }
+            updateDCSlider();
+        }
+        
+        dcPrevBtn.addEventListener('click', () => {
+            goToDCScreenshot(dcIndex - 1);
+        });
+        
+        dcNextBtn.addEventListener('click', () => {
+            goToDCScreenshot(dcIndex + 1);
+        });
+        
+        // Support swipe/drag on Data Center track
+        let dcStartX = 0;
+        let dcIsDragging = false;
+        
+        dcTrack.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+        
+        dcTrack.addEventListener('touchstart', (e) => {
+            dcStartX = e.touches[0].clientX;
+            dcIsDragging = true;
+        }, { passive: true });
+        
+        dcTrack.addEventListener('touchend', (e) => {
+            if (!dcIsDragging) return;
+            const endX = e.changedTouches[0].clientX;
+            const diffX = endX - dcStartX;
+            if (Math.abs(diffX) > 40) {
+                if (diffX > 0) {
+                    goToDCScreenshot(dcIndex - 1);
+                } else {
+                    goToDCScreenshot(dcIndex + 1);
+                }
+            }
+            dcIsDragging = false;
+        }, { passive: true });
+        
+        dcTrack.addEventListener('mousedown', (e) => {
+            if (e.button !== 0) return;
+            dcStartX = e.clientX;
+            dcIsDragging = true;
+        });
+        
+        window.addEventListener('mouseup', (e) => {
+            if (!dcIsDragging) return;
+            const endX = e.clientX;
+            const diffX = endX - dcStartX;
+            if (Math.abs(diffX) > 40) {
+                if (diffX > 0) {
+                    goToDCScreenshot(dcIndex - 1);
+                } else {
+                    goToDCScreenshot(dcIndex + 1);
+                }
+            }
+            dcIsDragging = false;
+        });
+        
+        // Initialize Data Center slider
+        updateDCSlider();
+
+        // Tarot Daily Screenshot Slider Logic
+        const tTrack = document.getElementById('tarot-track');
+        const tSlides = Array.from(tTrack.children);
+        const tDotsContainer = document.getElementById('tarot-dots');
+        const tPrevBtn = document.getElementById('tarot-prev');
+        const tNextBtn = document.getElementById('tarot-next');
+        const tCounter = document.getElementById('tarot-counter');
+        
+        let tIndex = 0;
+        
+        // Generate dots for Tarot screenshots
+        tSlides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.classList.add('screenshot-dot');
+            if (idx === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                goToTarotScreenshot(idx);
+            });
+            tDotsContainer.appendChild(dot);
+        });
+        
+        const tDots = Array.from(tDotsContainer.children);
+        
+        function updateTarotSlider() {
+            tTrack.style.transform = `translateX(-${tIndex * 100}%)`;
+            
+            tDots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === tIndex);
+            });
+            
+            tCounter.textContent = `${tIndex + 1} / ${tSlides.length}`;
+        }
+        
+        function goToTarotScreenshot(idx) {
+            if (idx < 0) {
+                tIndex = tSlides.length - 1;
+            } else if (idx >= tSlides.length) {
+                tIndex = 0;
+            } else {
+                tIndex = idx;
+            }
+            updateTarotSlider();
+        }
+        
+        tPrevBtn.addEventListener('click', () => {
+            goToTarotScreenshot(tIndex - 1);
+        });
+        
+        tNextBtn.addEventListener('click', () => {
+            goToTarotScreenshot(tIndex + 1);
+        });
+        
+        // Support swipe/drag on Tarot track
+        let tStartX = 0;
+        let tIsDragging = false;
+        
+        tTrack.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+        
+        tTrack.addEventListener('touchstart', (e) => {
+            tStartX = e.touches[0].clientX;
+            tIsDragging = true;
+        }, { passive: true });
+        
+        tTrack.addEventListener('touchend', (e) => {
+            if (!tIsDragging) return;
+            const endX = e.changedTouches[0].clientX;
+            const diffX = endX - tStartX;
+            if (Math.abs(diffX) > 40) {
+                if (diffX > 0) {
+                    goToTarotScreenshot(tIndex - 1);
+                } else {
+                    goToTarotScreenshot(tIndex + 1);
+                }
+            }
+            tIsDragging = false;
+        }, { passive: true });
+        
+        tTrack.addEventListener('mousedown', (e) => {
+            if (e.button !== 0) return;
+            tStartX = e.clientX;
+            tIsDragging = true;
+        });
+        
+        window.addEventListener('mouseup', (e) => {
+            if (!tIsDragging) return;
+            const endX = e.clientX;
+            const diffX = endX - tStartX;
+            if (Math.abs(diffX) > 40) {
+                if (diffX > 0) {
+                    goToTarotScreenshot(tIndex - 1);
+                } else {
+                    goToTarotScreenshot(tIndex + 1);
+                }
+            }
+            tIsDragging = false;
+        });
+        
+        // Initialize Tarot slider
+        updateTarotSlider();
     </script>
 </body>
 </html>
