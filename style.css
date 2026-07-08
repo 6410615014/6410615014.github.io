@@ -1251,12 +1251,14 @@ button:focus-visible {
     
     .hero {
         padding: 40px;
+        order: 2;
     }
 
     .profile-card {
         max-width: 320px;
         width: 100%;
         margin: 0 auto;
+        order: 1;
     }
     
     .about-grid,
