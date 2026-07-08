@@ -1782,11 +1782,11 @@ button:focus-visible {
 }
 
 .screenshot-track {
-    display: flex;
+    position: relative;
     width: 100%;
     height: 100%;
-    transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
     cursor: grab;
+    touch-action: none;
 }
 
 .screenshot-track:active {
@@ -1794,14 +1794,26 @@ button:focus-visible {
 }
 
 .screenshot-slide {
-    flex: 0 0 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease-in-out;
     display: flex;
     align-items: center;
     justify-content: center;
     user-select: none;
     -webkit-user-drag: none;
+    z-index: 1;
+}
+
+.screenshot-slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 2;
 }
 
 .screenshot-slide img {

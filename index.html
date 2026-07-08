@@ -89,12 +89,9 @@
         }
 
         .screenshot-track {
-            display: flex !important;
-            flex-direction: row !important;
-            flex-wrap: nowrap !important;
+            position: relative !important;
             width: 100% !important;
             height: 100% !important;
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
             cursor: grab !important;
             box-sizing: border-box !important;
             touch-action: none !important;
@@ -105,10 +102,14 @@
         }
 
         .screenshot-slide {
-            flex: 0 0 100% !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
             width: 100% !important;
-            max-width: 100% !important;
             height: 100% !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            transition: opacity 0.4s ease-in-out !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
@@ -116,6 +117,13 @@
             -webkit-user-drag: none !important;
             box-sizing: border-box !important;
             padding: 14px !important; /* Breathing room */
+            z-index: 1 !important;
+        }
+
+        .screenshot-slide.active {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+            z-index: 2 !important;
         }
 
         .screenshot-slide img {
@@ -1264,7 +1272,9 @@
         const ssDots = Array.from(ssDotsContainer.children);
         
         function updateScreenshotSlider() {
-            ssTrack.style.transform = `translateX(-${ssIndex * 100}%)`;
+            ssSlides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === ssIndex);
+            });
             ssDots.forEach((dot, idx) => {
                 dot.classList.toggle('active', idx === ssIndex);
             });
@@ -1306,7 +1316,9 @@
         const hDots = Array.from(hDotsContainer.children);
         
         function updateHomieSlider() {
-            hTrack.style.transform = `translateX(-${hIndex * 100}%)`;
+            hSlides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === hIndex);
+            });
             hDots.forEach((dot, idx) => {
                 dot.classList.toggle('active', idx === hIndex);
             });
@@ -1348,7 +1360,9 @@
         const tuDots = Array.from(tuDotsContainer.children);
         
         function updateTUSlider() {
-            tuTrack.style.transform = `translateX(-${tuIndex * 100}%)`;
+            tuSlides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === tuIndex);
+            });
             tuDots.forEach((dot, idx) => {
                 dot.classList.toggle('active', idx === tuIndex);
             });
@@ -1395,12 +1409,12 @@
         const dcDots = Array.from(dcDotsContainer.children);
         
         function updateDCSlider() {
-            dcTrack.style.transform = `translateX(-${dcIndex * 100}%)`;
-            
+            dcSlides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === dcIndex);
+            });
             dcDots.forEach((dot, idx) => {
                 dot.classList.toggle('active', idx === dcIndex);
             });
-            
             dcCounter.textContent = `${dcIndex + 1} / ${dcSlides.length}`;
         }
         
@@ -1440,7 +1454,9 @@
         const tDots = Array.from(tDotsContainer.children);
         
         function updateTarotSlider() {
-            tTrack.style.transform = `translateX(-${tIndex * 100}%)`;
+            tSlides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === tIndex);
+            });
             tDots.forEach((dot, idx) => {
                 dot.classList.toggle('active', idx === tIndex);
             });
