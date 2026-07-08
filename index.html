@@ -97,6 +97,7 @@
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
             cursor: grab !important;
             box-sizing: border-box !important;
+            touch-action: pan-y !important;
         }
 
         .screenshot-track:active {
@@ -219,8 +220,16 @@
                 height: 200px !important;
             }
             .slider-arrow {
-                display: none !important; /* Hide arrows on small mobile, rely on swipe! */
+                display: flex !important;
+                width: 32px !important;
+                height: 32px !important;
+                background: rgba(255, 255, 255, 0.85) !important;
+                border: 1px solid rgba(79, 70, 229, 0.15) !important;
+                color: #4f46e5 !important;
+                box-shadow: 0 4px 10px rgba(79, 70, 229, 0.08) !important;
             }
+            .prev-arrow { left: 6px !important; }
+            .next-arrow { right: 6px !important; }
             .screenshot-slider {
                 padding: 10px !important;
                 border-radius: 12px !important;
@@ -1168,7 +1177,7 @@
             });
         }
 
-        // Slider Swipe & Drag Support Helper Function
+        // Slider Swipe & Drag Support Helper Function (Unified Touch/Mouse Version matching Certificates Carousel)
         function enableSliderGestures(track, onPrev, onNext) {
             let startX = 0;
             let isDragging = false;
@@ -1177,29 +1186,23 @@
                 e.preventDefault();
             });
             
+            // Touch gestures (iOS & Android Mobile)
             track.addEventListener('touchstart', (e) => {
                 startX = e.touches[0].clientX;
                 isDragging = true;
             }, { passive: true });
             
-            track.addEventListener('touchmove', (e) => {
-                if (!isDragging) return;
-                const currentX = e.touches[0].clientX;
-                const diffX = currentX - startX;
-                if (Math.abs(diffX) > 10) {
-                    e.preventDefault(); // Prevent page scrolling during horizontal swipe
-                }
-            }, { passive: false });
-            
             track.addEventListener('touchend', (e) => {
                 if (!isDragging) return;
                 const endX = e.changedTouches[0].clientX;
                 const diffX = endX - startX;
-                if (Math.abs(diffX) > 40) {
+                
+                // Slide shifting if swipe swipe distance exceeds 30px (identical to certificates slider!)
+                if (Math.abs(diffX) > 30) {
                     if (diffX > 0) {
-                        onPrev();
+                        onPrev(); // Swipe right -> previous
                     } else {
-                        onNext();
+                        onNext(); // Swipe left -> next
                     }
                 }
                 isDragging = false;
@@ -1209,8 +1212,9 @@
                 isDragging = false;
             });
             
+            // Mouse gestures (Desktop Dragging)
             track.addEventListener('mousedown', (e) => {
-                if (e.button !== 0) return;
+                if (e.button !== 0) return; // Only left mouse button drag
                 startX = e.clientX;
                 isDragging = true;
             });
@@ -1219,7 +1223,8 @@
                 if (!isDragging) return;
                 const endX = e.clientX;
                 const diffX = endX - startX;
-                if (Math.abs(diffX) > 40) {
+                
+                if (Math.abs(diffX) > 30) {
                     if (diffX > 0) {
                         onPrev();
                     } else {
