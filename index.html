@@ -1181,10 +1181,11 @@
             });
         }
 
-        // Slider Swipe & Drag Support Helper Function (Unified Touch/Mouse Version matching Certificates Carousel)
+        // Slider Swipe & Drag Support Helper Function (Unified Touch/Mouse Version with Anti-Simulated Mouse Event Guard)
         function enableSliderGestures(track, onPrev, onNext) {
             let startX = 0;
             let isDragging = false;
+            let lastTouchTime = 0;
             
             track.addEventListener('dragstart', (e) => {
                 e.preventDefault();
@@ -1192,11 +1193,13 @@
             
             // Touch gestures (iOS & Android Mobile)
             track.addEventListener('touchstart', (e) => {
+                lastTouchTime = Date.now();
                 startX = e.touches[0].clientX;
                 isDragging = true;
             }, { passive: true });
             
             track.addEventListener('touchend', (e) => {
+                lastTouchTime = Date.now();
                 if (!isDragging) return;
                 const endX = e.changedTouches[0].clientX;
                 const diffX = endX - startX;
@@ -1218,12 +1221,15 @@
             
             // Mouse gestures (Desktop Dragging)
             track.addEventListener('mousedown', (e) => {
+                // Ignore mouse events triggered by touch simulation (iOS/Android delay)
+                if (Date.now() - lastTouchTime < 800) return;
                 if (e.button !== 0) return; // Only left mouse button drag
                 startX = e.clientX;
                 isDragging = true;
             });
             
             window.addEventListener('mouseup', (e) => {
+                if (Date.now() - lastTouchTime < 800) return;
                 if (!isDragging) return;
                 const endX = e.clientX;
                 const diffX = endX - startX;
