@@ -97,7 +97,7 @@
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
             cursor: grab !important;
             box-sizing: border-box !important;
-            touch-action: pan-y !important;
+            touch-action: none !important;
         }
 
         .screenshot-track:active {
@@ -123,6 +123,10 @@
             max-height: 100% !important;
             object-fit: contain !important;
             pointer-events: none !important;
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            -webkit-user-drag: none !important;
+            -webkit-touch-callout: none !important; /* Prevents context menu on iOS */
             filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.07)) !important; /* Elegant web drop shadow */
             border: 1px solid rgba(0, 0, 0, 0.06) !important;
             border-radius: 8px !important;

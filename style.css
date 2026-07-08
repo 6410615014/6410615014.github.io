@@ -1809,6 +1809,10 @@ button:focus-visible {
     max-height: 100%;
     object-fit: contain; /* Do not crop the screenshots, show them in full! */
     pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
 }
 
 /* Arrows inside viewport */
