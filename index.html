@@ -3,79 +3,454 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kanokwan</title>
+    <title>Kanokwan Kumchokchana | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <img src="/mypic.jpg" alt="Kanokwan Kumchokchana" width="200">
-        <h1> Kanokwan Kumchokchana </h1>
-        <p>✨ Hi! I'm <strong>Kanokwan Kumchokchana</strong>, but you can call me <strong>Aom or aomnaiiii</strong> 💖. 
-I'm a 23-year-old Engineering student at Thammasat University 🎓. 
-Here you can learn more about me, my interests, and my projects ✨</p>
+    <div class="page-shell">
 
-        <ul>
-            <li>🙋‍♀️ Personal Information
-                <ul>
-                    <li>👩‍🎓 Name: Kanokwan Kumchokchana</li>
-                    <li>💖 Nickname: Aom</li>
-                    <li>🎂 Age: 23</li>
-                    <li>🏫 Faculty: Engineering</li>
-                    <li>🎓 University: Thammasat University</li>
-                    <li>🆔 Student ID: 6410615014</li>
-                </ul>
-            </li>
-            <li>🎯 Hobbies
-                <ul>
-                    <li>🎵 Listening to music
-                        <ul>
-                            <li>🎤 Favorite Artists: Inspirative, Desktop Error, Pumkins At Alaska, WORRX</li>
-                            <li>🎶 Favorite Genres: THAI INDIE POP, THAI ROCK, THAI POP, CHINESE R&B</li>
-                            <li>🎧 Favorite playlist: <a href="https://open.spotify.com/playlist/1uSGH918OeKOrGZ7yUvHYU?si=2de40bbedb754638" target="_blank">My Playlist</a></li>
-                        </ul>
-                    </li>
-                    <li>📚 Reading books</li>
-                    <li>📺 Watching series
-                        <ul>
-                            <li>🎥 Favorite Series: Revenged Love, Lovely Runner, My ID is Gangnam beauty, True Beauty</li>
-                            <li>🍿 Favorite Genres: Rom-com, Romantic Drama, Horror, Fantasy, Crime</li>
-                        </ul>
-                    </li>
-                    <li>🏃‍♀️ Exercising</li>
-                    <li>🎬 Video editing</li>
-                    <li>🎮 Gaming
-                        <ul>
-                            <li>🎮 Favorite Games: Hay Day</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li>💡 Interests
-                <ul>
-                    <li>💻 Web Development</li>
-                    <li>🎨 UX/UI Design</li>
-                </ul>
-            </li>
-            <li>🚀 Projects
-                <ul>
-                    <li>
-                        🌐 <a href="https://github.com/6410615014" target="_blank">My GitHub Profile</a>
-                    </li>
-                </ul>
-            </li>
-            <li>📫 Contact
-                <ul>
-                    <li>✉️ Email: kanokwan.kum@dome.tu.ac.th</li>
-                    <li>📸 Instagram: <a href="https://www.instagram.com/aomnaiiii/" target="_blank">@aomnaiiii</a></li>
-                    <li>👩‍💼 Facebook: <a href="https://www.facebook.com/aom.knw11/" target="_blank">@kanokwan kumchokchana</a></li>
-                </ul>
-            </li>
-            <li>My CV
-                <ul>
-                    <li>📄 <a href="/cv_kanokwan.pdf" target="_blank">Download My CV</a></li>
-                </ul>
-            </li>
-        </ul>
+        <header class="topbar">
+            <nav class="topnav" aria-label="Main Navigation">
+                <a href="#about">About</a>
+                <a href="#experience">Experience</a>
+                <a href="#skills">Skills</a>
+                <a href="#work">Projects</a>
+                <a href="#certificates">Certificates</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </header>
+
+        <main id="home" class="hero-grid">
+            <section class="hero card-surface">
+                <h1>Kanokwan Kumchokchana</h1>
+                <p class="hero-copy">
+                    Computer Engineering undergraduate with hands-on experience in full-stack web application development through two software engineering internships. Skilled in developing business-oriented applications using Django, PostgreSQL, JavaScript, and Vue.js, with experience spanning requirements analysis, workflow design, implementation, deployment, and user testing. Seeking a Software Engineer or Full Stack Developer position to contribute strong software engineering and problem-solving skills.
+                </p>
+
+                <div class="hero-actions">
+                    <a class="button button-primary" href="#work">View Projects</a>
+                    <a class="button button-secondary" href="cv_kanokwan.pdf" target="_blank" rel="noreferrer">Download CV</a>
+                </div>
+            </section>
+
+            <aside class="profile-card card-surface">
+                <div class="profile-frame">
+                    <img src="mypic.jpg" alt="Profile Picture">
+                </div>
+            </aside>
+        </main>
+
+        <section id="about" class="content-section">
+            <div class="section-heading">
+                <p class="section-label">About Me</p>
+                <h2>Kanokwan Kumchokchana (Aom)</h2>
+            </div>
+
+            <div class="about-grid">
+                <article class="info-card card-surface">
+                    <h3>Personal Info</h3>
+                    <ul class="stack-list">
+                        <li>Date of Birth: June 3, 2002</li>
+                        <li>Age: 24 years</li>
+                        <li>MBTI: INFJ</li>
+                        <li>Location: Khlong Luang, Pathum Thani 12120</li>
+                    </ul>
+                </article>
+
+                <article class="info-card card-surface">
+                    <h3>Education</h3>
+                    <ul class="stack-list">
+                        <li>Bachelor of Engineering Program (Computer Engineering), Thammasat University (Rangsit Campus) (Expected Graduation: July 2026)</li>
+                        <li>GPAX: 3.17</li>
+                        <li>Scholarship: Mitsubishi Electric Thai Foundation Scholarship</li>
+                        <li>Relevant Coursework: Object-Oriented Programming, Software Engineering, Object-Oriented Analysis and Design, Database Systems, Web Application Development, Data Center Management, Cloud Computing</li>
+                    </ul>
+                </article>
+                <article class="info-card card-surface">
+                    <h3>Interests</h3>
+                    <ul class="stack-list">
+                        <li>Full Stack Web Development</li>
+                        <li>UX/UI Design & Prototyping</li>
+                        <li>Network & Cloud Engineering</li>
+                    </ul>
+                </article>
+
+                <article class="info-card card-surface">
+                    <h3>Strengths</h3>
+                    <ul class="stack-list">
+                        <li>Structured Problem Solving & Code Debugging</li>
+                        <li>Agile Software Development & Team Collaboration</li>
+                        <li>Technical Communication & Mentoring</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section id="experience" class="content-section">
+            <div class="section-heading">
+                <p class="section-label">Experience</p>
+                <h2>Work Experience</h2>
+            </div>
+
+            <div class="experience-list">
+                <!-- World Product Development -->
+                <article class="experience-card card-surface">
+                    <div class="experience-header">
+                        <div class="experience-company-group">
+                            <span class="experience-date">August 2025 – November 2025</span>
+                            <h3>World Product Development, Smart Service and Management Co., Ltd.</h3>
+                            <p class="experience-role">Programmer (Full Stack Developer)</p>
+                        </div>
+                    </div>
+                    <ul class="experience-bullet-list">
+                        <li>Developed a role-based complaint management web application for residential communities using Django, PostgreSQL, HTML, CSS, JavaScript, and Bootstrap, collaborating with stakeholders to gather requirements and design system workflows.</li>
+                        <li>Designed and implemented full-stack features including request workflows, dashboards, reporting, PDF/Excel export, and Email/LINE Official Account notifications to support issue tracking and resolution processes.</li>
+                        <li>Supported prototype deployment through Cloudflare, participated in pilot testing with real users, gathered feedback for system improvements, and contributed to a solution later continued as a university senior project.</li>
+                    </ul>
+                </article>
+
+                <!-- TA -->
+                <article class="experience-card card-surface">
+                    <div class="experience-header">
+                        <div class="experience-company-group">
+                            <span class="experience-date">July 2025</span>
+                            <h3>Thammasat School of Engineering</h3>
+                            <p class="experience-role">Teaching Assistant (Python Programming)</p>
+                        </div>
+                    </div>
+                    <ul class="experience-bullet-list">
+                        <li>Assisted the instructor during laboratory sessions by explaining Python programming concepts, answering technical questions, and providing one-on-one guidance for coding exercises and debugging.</li>
+                        <li>Evaluated programming assignments and in-class quizzes, provided constructive feedback, and supported examination supervision to maintain a fair and organized learning environment.</li>
+                        <li>Supported students in developing problem-solving skills and programming fundamentals while strengthening communication, mentoring, and debugging abilities.</li>
+                    </ul>
+                </article>
+
+                <!-- Somsri Garment -->
+                <article class="experience-card card-surface">
+                    <div class="experience-header">
+                        <div class="experience-company-group">
+                            <span class="experience-date">June 2024 – July 2024</span>
+                            <h3>Somsri Garment Co., Ltd.</h3>
+                            <p class="experience-role">Programmer Intern (Full Stack Developer)</p>
+                        </div>
+                    </div>
+                    <ul class="experience-bullet-list">
+                        <li>Developed and enhanced internal full-stack web applications using Vue.js, Nuxt.js, Node.js, Prisma, and Tailwind CSS by implementing new features, resolving bugs, and improving existing workflows.</li>
+                        <li>Implemented business features including PDF generation (pdfMake), QR code generation, LINE Official Account integration, and database-driven interfaces while testing APIs with Postman and managing source code with GitHub.</li>
+                        <li>Collaborated with senior developers to test, debug, and deliver production-ready features, gaining hands-on experience with modern software development practices, version control, and Agile team collaboration.</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section id="skills" class="content-section">
+            <div class="section-heading">
+                <p class="section-label">Skills</p>
+            </div>
+
+            <!-- Tech Stack & Tools Section -->
+            <div class="tech-stack-card card-surface">
+                <h3>Technology Stack & Tools</h3>
+                <div class="tech-stack-grid">
+                    <div class="tech-stack-category">
+                        <h4>Languages</h4>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">SQL</span>
+                            <span class="tech-tag">Java</span>
+                        </div>
+                    </div>
+                    <div class="tech-stack-category">
+                        <h4>Frameworks</h4>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Django</span>
+                            <span class="tech-tag">Vue.js</span>
+                            <span class="tech-tag">Nuxt.js</span>
+                            <span class="tech-tag">Bootstrap</span>
+                            <span class="tech-tag">Tailwind CSS</span>
+                        </div>
+                    </div>
+                    <div class="tech-stack-category">
+                        <h4>Database</h4>
+                        <div class="tech-tags">
+                            <span class="tech-tag">PostgreSQL</span>
+                        </div>
+                    </div>
+                    <div class="tech-stack-category">
+                        <h4>Tools</h4>
+                        <div class="tech-tags">
+                            <span class="tech-tag">GitHub</span>
+                            <span class="tech-tag">Postman</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">Figma</span>
+                            <span class="tech-tag">VS Code</span>
+                            <span class="tech-tag">Basic Microsoft Office</span>
+                            <span class="tech-tag">Canva</span>
+                            <span class="tech-tag">CapCut</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="work" class="content-section">
+            <div class="section-heading">
+                <p class="section-label">My Work</p>
+                <h2>Projects</h2>
+            </div>
+
+            <div class="project-grid">
+                <article class="project-card card-surface">
+                    <span class="card-tag">Full Stack Development</span>
+                    <h3>Real-Time Project Request and Progress Management System</h3>
+                    <ul class="case-list">
+                        <li><strong>Problem:</strong> Residential community maintenance and service request workflows were fragmented across multiple communication channels, causing delays, data loss, and hard retrospective audits.</li>
+                        <li><strong>Solution:</strong> Developed a centralized, real-time web application to streamline the entire maintenance lifecycle (reporting, task routing, assignment, progress tracking, approvals, and reviews).</li>
+                        <li><strong>Role & Features:</strong> Designed and implemented:
+                            <ul>
+                                <li><strong>Role-Based Access Control (RBAC):</strong> Support for 6 distinct user roles (Requesters, Juristic Officers, Project Managers, Technicians, Executives, and Admins).</li>
+                                <li><strong>SLA Monitoring:</strong> Integrated custom SLA threshold alerts and adjustments.</li>
+                                <li><strong>LINE OA & Email Alerts:</strong> Automated real-time notifications via LINE Messaging API and Email for key state transitions.</li>
+                                <li><strong>Duplicate Check:</strong> Algorithm-based detection of similar recent issues to prevent redundant dispatch.</li>
+                                <li><strong>Management Analytics:</strong> Interactive dashboards displaying Kanban Board, Gantt Chart, and reports summarizing resolution times and user satisfaction ratings.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Tools & Tech:</strong> Django (Python), PostgreSQL, HTML5, CSS3, JavaScript, Bootstrap, LINE Messaging API</li>
+                        <li><strong>Result:</strong> Significantly reduced communication redundancies, improved task-tracking efficiency, and successfully completed pilot-testing in a real-world residential community.</li>
+                    </ul>
+                    <div class="project-actions">
+                        <a class="project-btn project-btn-demo" href="https://canva.link/a8n16u3c1uxc84b" target="_blank" rel="noreferrer">System Demo</a>
+                        <a class="project-btn project-btn-code" href="project/CN04_6410615014_%E0%B8%A3%E0%B8%B2%E0%B8%A2%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%89%E0%B8%9A%E0%B8%B1%E0%B8%9A%E0%B8%AA%E0%B8%A1%E0%B8%9A%E0%B8%B9%E0%B8%A3%E0%B8%93%E0%B9%8C.pdf" target="_blank" rel="noreferrer">Full Report</a>
+                        <a class="project-btn project-btn-code" href="project/%E0%B8%84%E0%B8%B9%E0%B9%88%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%83%E0%B8%8A%E0%B9%89%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%9A%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B8%88%E0%B8%B1%E0%B8%94%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B9%81%E0%B8%88%E0%B9%89%E0%B8%87%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B8%95%E0%B8%B4%E0%B8%94%E0%B8%95%E0%B8%B2%E0%B8%A1%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%84%E0%B8%B7%E0%B8%9A%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B9%83%E0%B8%99%E0%B9%82%E0%B8%84%E0%B8%A3%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%A5%E0%B9%84%E0%B8%97%E0%B8%A1%E0%B9%8C.pdf" target="_blank" rel="noreferrer">User Manual</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+        <section id="certificates" class="content-section">
+            <div class="section-heading">
+                <p class="section-label">Certificates</p>
+                <h2>My Certifications</h2>
+            </div>
+
+            <div class="certificate-grid">
+                <!-- Living with AI -->
+                <article class="certificate-card card-surface">
+                    <img class="certificate-image" src="certificates/certificate_AI.jpg" alt="Living with AI Certificate">
+                    <h3>Living with AI: What You Need to Know and Understand</h3>
+                    <p>Chulalongkorn University (NEURON0128)</p>
+                    <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_AI.jpg" data-title="Living with AI: What You Need to Know and Understand - Chulalongkorn University">View Certificate</button>
+                </article>
+
+                <!-- Cloud Computing -->
+                <article class="certificate-card card-surface">
+                    <img class="certificate-image" src="certificates/certificate_cloud.jpg" alt="Cloud Computing for Everyone Certificate">
+                    <h3>Cloud Computing for Everyone</h3>
+                    <p>Chulalongkorn University (NEURON0102)</p>
+                    <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_cloud.jpg" data-title="Cloud Computing for Everyone - Chulalongkorn University">View Certificate</button>
+                </article>
+
+                <!-- Database SQL -->
+                <article class="certificate-card card-surface">
+                    <img class="certificate-image" src="certificates/certificate_database.jpg" alt="Database Management with SQL Certificate">
+                    <h3>Database Management with SQL</h3>
+                    <p>Chulalongkorn University (NEURON0119)</p>
+                    <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_database.jpg" data-title="Database Management with SQL - Chulalongkorn University">View Certificate</button>
+                </article>
+
+                <!-- HTML CSS -->
+                <article class="certificate-card card-surface">
+                    <img class="certificate-image" src="certificates/certificate_html_css.jpg" alt="Web Page Authoring with HTML and CSS Certificate">
+                    <h3>Web Page Authoring with HTML and CSS</h3>
+                    <p>Chulalongkorn University (NEURON0117)</p>
+                    <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_html_css.jpg" data-title="Web Page Authoring with HTML and CSS - Chulalongkorn University">View Certificate</button>
+                </article>
+
+                <!-- Thai MOOC HTML CSS -->
+                <article class="certificate-card card-surface">
+                    <img class="certificate-image" src="certificates/certificate_html_css_thaiMOOC.png" alt="HTML and CSS Thai MOOC Certificate">
+                    <h3>Web Page Authoring: HTML and CSS</h3>
+                    <p>Thai MOOC (2024)</p>
+                    <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_html_css_thaiMOOC.png" data-title="Web Page Authoring: HTML and CSS - Thai MOOC">View Certificate</button>
+                </article>
+
+                <!-- JavaScript -->
+                <article class="certificate-card card-surface">
+                    <img class="certificate-image" src="certificates/certificate_javaScript.jpg" alt="Programming with JavaScript Certificate">
+                    <h3>Programming with JavaScript</h3>
+                    <p>Chulalongkorn University (NEURON0118)</p>
+                    <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_javaScript.jpg" data-title="Programming with JavaScript - Chulalongkorn University">View Certificate</button>
+                </article>
+
+                <!-- Software Project Management -->
+                <article class="certificate-card card-surface">
+                    <img class="certificate-image" src="certificates/certificate_pm.jpg" alt="Software Project Management Certificate">
+                    <h3>Software Project Management Essentials</h3>
+                    <p>Chulalongkorn University (NEURON0122)</p>
+                    <button class="project-btn project-btn-code view-cert-btn" data-src="certificates/certificate_pm.jpg" data-title="Software Project Management Essentials - Chulalongkorn University">View Certificate</button>
+                </article>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-band card-surface">
+            <div class="contact-intro">
+                <p class="section-label">Contact</p>
+              
+            </div>
+
+            <div class="contact-links">
+                <a href="mailto:kanokwan.kum4@gmail.com" aria-label="Personal Email">
+                    <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.75A2.75 2.75 0 0 1 5.75 4h12.5A2.75 2.75 0 0 1 21 6.75v10.5A2.75 2.75 0 0 1 18.25 20H5.75A2.75 2.75 0 0 1 3 17.25V6.75zm2.07-.25L12 11.2l6.93-4.7H5.07zM19 8.08l-6.44 4.37a1 1 0 0 1-1.12 0L5 8.08v9.17c0 .41.34.75.75.75h12.5c.41 0 .75-.34.75-.75V8.08z"></path></svg>
+                    <span>kanokwan.kum4@gmail.com</span>
+                </a>
+                <a href="tel:+66614374747" aria-label="Phone Number">
+                    <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.15 15.15 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.11-.27 11.36 11.36 0 0 0 4.25 1.21 1 1 0 0 1 .91 1v3.44a1 1 0 0 1-1.07 1A19.86 19.86 0 0 1 3 4a1 1 0 0 1 1-1.07h3.44a1 1 0 0 1 1 .91 11.36 11.36 0 0 0 1.21 4.25 1 1 0 0 1-.27 1.11l-2.2 2.2z"></path></svg>
+                    <span>(+66) 614374747</span>
+                </a>
+                <a href="https://linkedin.com/in/kanokwan-kumchokchana" target="_blank" rel="noreferrer" aria-label="LinkedIn Profile">
+                    <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"></path></svg>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://github.com/6410615014" target="_blank" rel="noreferrer" aria-label="GitHub Profile">
+                    <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.12.82-.26.82-.58v-2.02c-3.34.73-4.04-1.6-4.04-1.6-.55-1.37-1.34-1.74-1.34-1.74-1.1-.74.08-.72.08-.72 1.2.08 1.84 1.24 1.84 1.24 1.08 1.84 2.84 1.31 3.54 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.39 1.24-3.23-.13-.3-.54-1.53.11-3.19 0 0 1.01-.33 3.3 1.23a11.6 11.6 0 0 1 6 0c2.29-1.56 3.3-1.23 3.3-1.23.66 1.66.25 2.89.12 3.19.77.84 1.24 1.92 1.24 3.23 0 4.61-2.8 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .5z"></path></svg>
+                    <span>GitHub</span>
+                </a>
+            </div>
+        </section>
     </div>
+
+    <!-- Certificate Image Modal Popup -->
+    <div id="cert-modal" class="modal" aria-hidden="true" role="dialog">
+        <span class="modal-close" id="modal-close">&times;</span>
+        <div class="modal-content-wrapper">
+            <img class="modal-image" id="modal-img" alt="Certificate Preview">
+            <div class="modal-caption" id="modal-caption"></div>
+        </div>
+    </div>
+
+    <script>
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Modal Logic for Certificates
+        const certModal = document.getElementById('cert-modal');
+        const modalImg = document.getElementById('modal-img');
+        const modalCaption = document.getElementById('modal-caption');
+        const modalClose = document.getElementById('modal-close');
+        const viewButtons = document.querySelectorAll('.view-cert-btn');
+
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const imgSrc = this.getAttribute('data-src');
+                const title = this.getAttribute('data-title');
+                
+                modalImg.src = imgSrc;
+                modalCaption.textContent = title;
+                
+                certModal.classList.add('is-active');
+                certModal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden'; // Disable scroll background
+            });
+        });
+
+        function closeModal() {
+            certModal.classList.remove('is-active');
+            certModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = ''; // Restore scroll
+            setTimeout(() => {
+                modalImg.src = '';
+                modalCaption.textContent = '';
+            }, 300);
+        }
+
+        modalClose.addEventListener('click', closeModal);
+
+        certModal.addEventListener('click', function(e) {
+            if (e.target === certModal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && certModal.classList.contains('is-active')) {
+                closeModal();
+            }
+        });
+
+        const skillCards = document.querySelectorAll('.skill-card');
+        const experienceCards = document.querySelectorAll('.experience-card');
+        const depthCards = document.querySelectorAll('.card-surface, .project-card, .certificate-card, .skill-card');
+
+        skillCards.forEach(function (card, index) {
+            card.classList.add('reveal-item');
+            card.style.transitionDelay = (index * 80) + 'ms';
+        });
+
+        experienceCards.forEach(function (card, index) {
+            card.classList.add('reveal-item');
+            card.style.transitionDelay = (index * 80) + 'ms';
+        });
+
+        if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+            const cardObserver = new IntersectionObserver(function (entries, observer) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            skillCards.forEach(function (card) {
+                cardObserver.observe(card);
+            });
+
+            experienceCards.forEach(function (card) {
+                cardObserver.observe(card);
+            });
+        } else {
+            skillCards.forEach(function (card) {
+                card.classList.add('is-visible');
+            });
+            experienceCards.forEach(function (card) {
+                card.classList.add('is-visible');
+            });
+        }
+
+        if (!prefersReducedMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+            depthCards.forEach(function (card) {
+                card.classList.add('depth-hover');
+
+                card.addEventListener('mousemove', function (event) {
+                    const rect = card.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -4;
+                    const rotateY = ((x - centerX) / centerX) * 5;
+
+                    card.style.setProperty('--rx', rotateX.toFixed(2) + 'deg');
+                    card.style.setProperty('--ry', rotateY.toFixed(2) + 'deg');
+                    card.style.setProperty('--mx', ((x / rect.width) * 100).toFixed(0) + '%');
+                    card.style.setProperty('--my', ((y / rect.height) * 100).toFixed(0) + '%');
+                });
+
+                card.addEventListener('mouseenter', function () {
+                    card.classList.add('is-hovered');
+                });
+
+                card.addEventListener('mouseleave', function () {
+                    card.classList.remove('is-hovered');
+                    card.style.setProperty('--rx', '0deg');
+                    card.style.setProperty('--ry', '0deg');
+                });
+            });
+        }
+    </script>
 </body>
 </html>
