@@ -478,10 +478,10 @@
                                 <span class="mac-dot green"></span>
                             </div>
                             <span class="screenshot-title">System Preview</span>
-                            <span class="screenshot-counter">1 / 16</span>
+                            <span class="screenshot-counter" id="realtime-counter">1 / 16</span>
                         </div>
                         <div class="screenshot-viewport">
-                            <button class="slider-arrow prev-arrow" aria-label="Previous Screenshot">
+                            <button class="slider-arrow prev-arrow" id="realtime-prev" aria-label="Previous Screenshot">
                                 <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
                             </button>
                             <div class="screenshot-track" id="realtime-track">
@@ -502,7 +502,7 @@
                                 <div class="screenshot-slide" data-title="Customer Satisfaction Report"><img src="project_pic/realtime_project/satisfaction.png" alt="Customer Satisfaction Report"></div>
                                 <div class="screenshot-slide" data-title="Executive Analytics Summary"><img src="project_pic/realtime_project/summary.png" alt="Executive Analytics Summary"></div>
                             </div>
-                            <button class="slider-arrow next-arrow" aria-label="Next Screenshot">
+                            <button class="slider-arrow next-arrow" id="realtime-next" aria-label="Next Screenshot">
                                 <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
                             </button>
                         </div>
@@ -1167,41 +1167,92 @@
                 });
             });
         }
-        // Screenshot Slider Logic
+
+        // Slider Swipe & Drag Support Helper Function
+        function enableSliderGestures(track, onPrev, onNext) {
+            let startX = 0;
+            let isDragging = false;
+            
+            track.addEventListener('dragstart', (e) => {
+                e.preventDefault();
+            });
+            
+            track.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                isDragging = true;
+            }, { passive: true });
+            
+            track.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const currentX = e.touches[0].clientX;
+                const diffX = currentX - startX;
+                if (Math.abs(diffX) > 10) {
+                    e.preventDefault(); // Prevent page scrolling during horizontal swipe
+                }
+            }, { passive: false });
+            
+            track.addEventListener('touchend', (e) => {
+                if (!isDragging) return;
+                const endX = e.changedTouches[0].clientX;
+                const diffX = endX - startX;
+                if (Math.abs(diffX) > 40) {
+                    if (diffX > 0) {
+                        onPrev();
+                    } else {
+                        onNext();
+                    }
+                }
+                isDragging = false;
+            }, { passive: true });
+            
+            track.addEventListener('touchcancel', () => {
+                isDragging = false;
+            });
+            
+            track.addEventListener('mousedown', (e) => {
+                if (e.button !== 0) return;
+                startX = e.clientX;
+                isDragging = true;
+            });
+            
+            window.addEventListener('mouseup', (e) => {
+                if (!isDragging) return;
+                const endX = e.clientX;
+                const diffX = endX - startX;
+                if (Math.abs(diffX) > 40) {
+                    if (diffX > 0) {
+                        onPrev();
+                    } else {
+                        onNext();
+                    }
+                }
+                isDragging = false;
+            });
+        }
+
+        // 1. Real-Time Project Slider
         const ssTrack = document.getElementById('realtime-track');
         const ssSlides = Array.from(ssTrack.children);
         const ssDotsContainer = document.getElementById('realtime-dots');
-        const ssPrevBtn = document.querySelector('.screenshot-slider .prev-arrow');
-        const ssNextBtn = document.querySelector('.screenshot-slider .next-arrow');
-        const ssTitle = document.querySelector('.screenshot-title');
-        const ssCounter = document.querySelector('.screenshot-counter');
-        
+        const ssPrevBtn = document.getElementById('realtime-prev');
+        const ssNextBtn = document.getElementById('realtime-next');
+        const ssCounter = document.getElementById('realtime-counter');
         let ssIndex = 0;
         
-        // Generate dots for screenshots
         ssSlides.forEach((_, idx) => {
             const dot = document.createElement('div');
             dot.classList.add('screenshot-dot');
             if (idx === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => {
-                goToScreenshot(idx);
-            });
+            dot.addEventListener('click', () => goToScreenshot(idx));
             ssDotsContainer.appendChild(dot);
         });
-        
         const ssDots = Array.from(ssDotsContainer.children);
         
         function updateScreenshotSlider() {
-            // Slide track
             ssTrack.style.transform = `translateX(-${ssIndex * 100}%)`;
-            
-            // Update dots
             ssDots.forEach((dot, idx) => {
                 dot.classList.toggle('active', idx === ssIndex);
             });
-            
-            // Update header info
-            ssTitle.textContent = 'System Preview';
             ssCounter.textContent = `${ssIndex + 1} / ${ssSlides.length}`;
         }
         
@@ -1216,94 +1267,34 @@
             updateScreenshotSlider();
         }
         
-        ssPrevBtn.addEventListener('click', () => {
-            goToScreenshot(ssIndex - 1);
-        });
-        
-        ssNextBtn.addEventListener('click', () => {
-            goToScreenshot(ssIndex + 1);
-        });
-        
-        // Support swipe/drag on screenshots track
-        let ssStartX = 0;
-        let ssIsDragging = false;
-        
-        ssTrack.addEventListener('dragstart', (e) => {
-            e.preventDefault();
-        });
-        
-        ssTrack.addEventListener('touchstart', (e) => {
-            ssStartX = e.touches[0].clientX;
-            ssIsDragging = true;
-        }, { passive: true });
-        
-        ssTrack.addEventListener('touchend', (e) => {
-            if (!ssIsDragging) return;
-            const endX = e.changedTouches[0].clientX;
-            const diffX = endX - ssStartX;
-            if (Math.abs(diffX) > 40) {
-                if (diffX > 0) {
-                    goToScreenshot(ssIndex - 1);
-                } else {
-                    goToScreenshot(ssIndex + 1);
-                }
-            }
-            ssIsDragging = false;
-        }, { passive: true });
-        
-        ssTrack.addEventListener('mousedown', (e) => {
-            if (e.button !== 0) return;
-            ssStartX = e.clientX;
-            ssIsDragging = true;
-        });
-        
-        window.addEventListener('mouseup', (e) => {
-            if (!ssIsDragging) return;
-            const endX = e.clientX;
-            const diffX = endX - ssStartX;
-            if (Math.abs(diffX) > 40) {
-                if (diffX > 0) {
-                    goToScreenshot(ssIndex - 1);
-                } else {
-                    goToScreenshot(ssIndex + 1);
-                }
-            }
-            ssIsDragging = false;
-        });
-        
-        // Initialize
+        ssPrevBtn.addEventListener('click', () => goToScreenshot(ssIndex - 1));
+        ssNextBtn.addEventListener('click', () => goToScreenshot(ssIndex + 1));
+        enableSliderGestures(ssTrack, () => goToScreenshot(ssIndex - 1), () => goToScreenshot(ssIndex + 1));
         updateScreenshotSlider();
 
-        // Homie Screenshot Slider Logic
+        // 2. Homie Project Slider
         const hTrack = document.getElementById('homie-track');
         const hSlides = Array.from(hTrack.children);
         const hDotsContainer = document.getElementById('homie-dots');
         const hPrevBtn = document.getElementById('homie-prev');
         const hNextBtn = document.getElementById('homie-next');
         const hCounter = document.getElementById('homie-counter');
-        
         let hIndex = 0;
         
-        // Generate dots for Homie screenshots
         hSlides.forEach((_, idx) => {
             const dot = document.createElement('div');
             dot.classList.add('screenshot-dot');
             if (idx === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => {
-                goToHomieScreenshot(idx);
-            });
+            dot.addEventListener('click', () => goToHomieScreenshot(idx));
             hDotsContainer.appendChild(dot);
         });
-        
         const hDots = Array.from(hDotsContainer.children);
         
         function updateHomieSlider() {
             hTrack.style.transform = `translateX(-${hIndex * 100}%)`;
-            
             hDots.forEach((dot, idx) => {
                 dot.classList.toggle('active', idx === hIndex);
             });
-            
             hCounter.textContent = `${hIndex + 1} / ${hSlides.length}`;
         }
         
@@ -1318,94 +1309,34 @@
             updateHomieSlider();
         }
         
-        hPrevBtn.addEventListener('click', () => {
-            goToHomieScreenshot(hIndex - 1);
-        });
-        
-        hNextBtn.addEventListener('click', () => {
-            goToHomieScreenshot(hIndex + 1);
-        });
-        
-        // Support swipe/drag on Homie track
-        let hStartX = 0;
-        let hIsDragging = false;
-        
-        hTrack.addEventListener('dragstart', (e) => {
-            e.preventDefault();
-        });
-        
-        hTrack.addEventListener('touchstart', (e) => {
-            hStartX = e.touches[0].clientX;
-            hIsDragging = true;
-        }, { passive: true });
-        
-        hTrack.addEventListener('touchend', (e) => {
-            if (!hIsDragging) return;
-            const endX = e.changedTouches[0].clientX;
-            const diffX = endX - hStartX;
-            if (Math.abs(diffX) > 40) {
-                if (diffX > 0) {
-                    goToHomieScreenshot(hIndex - 1);
-                } else {
-                    goToHomieScreenshot(hIndex + 1);
-                }
-            }
-            hIsDragging = false;
-        }, { passive: true });
-        
-        hTrack.addEventListener('mousedown', (e) => {
-            if (e.button !== 0) return;
-            hStartX = e.clientX;
-            hIsDragging = true;
-        });
-        
-        window.addEventListener('mouseup', (e) => {
-            if (!hIsDragging) return;
-            const endX = e.clientX;
-            const diffX = endX - hStartX;
-            if (Math.abs(diffX) > 40) {
-                if (diffX > 0) {
-                    goToHomieScreenshot(hIndex - 1);
-                } else {
-                    goToHomieScreenshot(hIndex + 1);
-                }
-            }
-            hIsDragging = false;
-        });
-        
-        // Initialize Homie slider
+        hPrevBtn.addEventListener('click', () => goToHomieScreenshot(hIndex - 1));
+        hNextBtn.addEventListener('click', () => goToHomieScreenshot(hIndex + 1));
+        enableSliderGestures(hTrack, () => goToHomieScreenshot(hIndex - 1), () => goToHomieScreenshot(hIndex + 1));
         updateHomieSlider();
 
-        // TU Reports Screenshot Slider Logic
+        // 3. TU Reports Project Slider
         const tuTrack = document.getElementById('tureports-track');
         const tuSlides = Array.from(tuTrack.children);
         const tuDotsContainer = document.getElementById('tureports-dots');
         const tuPrevBtn = document.getElementById('tureports-prev');
         const tuNextBtn = document.getElementById('tureports-next');
         const tuCounter = document.getElementById('tureports-counter');
-        
         let tuIndex = 0;
         
-        // Generate dots for TU Reports screenshots
         tuSlides.forEach((_, idx) => {
             const dot = document.createElement('div');
             dot.classList.add('screenshot-dot');
             if (idx === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => {
-                goToTUScreenshot(idx);
-            });
+            dot.addEventListener('click', () => goToTUScreenshot(idx));
             tuDotsContainer.appendChild(dot);
         });
-        
         const tuDots = Array.from(tuDotsContainer.children);
         
         function updateTUSlider() {
             tuTrack.style.transform = `translateX(-${tuIndex * 100}%)`;
-            
             tuDots.forEach((dot, idx) => {
                 dot.classList.toggle('active', idx === tuIndex);
             });
-            
             tuCounter.textContent = `${tuIndex + 1} / ${tuSlides.length}`;
         }
         
@@ -1420,65 +1351,12 @@
             updateTUSlider();
         }
         
-        tuPrevBtn.addEventListener('click', () => {
-            goToTUScreenshot(tuIndex - 1);
-        });
-        
-        tuNextBtn.addEventListener('click', () => {
-            goToTUScreenshot(tuIndex + 1);
-        });
-        
-        // Support swipe/drag on TU Reports track
-        let tuStartX = 0;
-        let tuIsDragging = false;
-        
-        tuTrack.addEventListener('dragstart', (e) => {
-            e.preventDefault();
-        });
-        
-        tuTrack.addEventListener('touchstart', (e) => {
-            tuStartX = e.touches[0].clientX;
-            tuIsDragging = true;
-        }, { passive: true });
-        
-        tuTrack.addEventListener('touchend', (e) => {
-            if (!tuIsDragging) return;
-            const endX = e.changedTouches[0].clientX;
-            const diffX = endX - tuStartX;
-            if (Math.abs(diffX) > 40) {
-                if (diffX > 0) {
-                    goToTUScreenshot(tuIndex - 1);
-                } else {
-                    goToTUScreenshot(tuIndex + 1);
-                }
-            }
-            tuIsDragging = false;
-        }, { passive: true });
-        
-        tuTrack.addEventListener('mousedown', (e) => {
-            if (e.button !== 0) return;
-            tuStartX = e.clientX;
-            tuIsDragging = true;
-        });
-        
-        window.addEventListener('mouseup', (e) => {
-            if (!tuIsDragging) return;
-            const endX = e.clientX;
-            const diffX = endX - tuStartX;
-            if (Math.abs(diffX) > 40) {
-                if (diffX > 0) {
-                    goToTUScreenshot(tuIndex - 1);
-                } else {
-                    goToTUScreenshot(tuIndex + 1);
-                }
-            }
-            tuIsDragging = false;
-        });
-        
-        // Initialize TU Reports slider
+        tuPrevBtn.addEventListener('click', () => goToTUScreenshot(tuIndex - 1));
+        tuNextBtn.addEventListener('click', () => goToTUScreenshot(tuIndex + 1));
+        enableSliderGestures(tuTrack, () => goToTUScreenshot(tuIndex - 1), () => goToTUScreenshot(tuIndex + 1));
         updateTUSlider();
 
-        // Data Center Screenshot Slider Logic
+        // 4. Data Center Project Slider
         const dcTrack = document.getElementById('dc-track');
         const dcSlides = Array.from(dcTrack.children);
         const dcDotsContainer = document.getElementById('dc-dots');
@@ -1522,94 +1400,35 @@
             updateDCSlider();
         }
         
-        dcPrevBtn.addEventListener('click', () => {
-            goToDCScreenshot(dcIndex - 1);
-        });
-        
-        dcNextBtn.addEventListener('click', () => {
-            goToDCScreenshot(dcIndex + 1);
-        });
-        
-        // Support swipe/drag on Data Center track
-        let dcStartX = 0;
-        let dcIsDragging = false;
-        
-        dcTrack.addEventListener('dragstart', (e) => {
-            e.preventDefault();
-        });
-        
-        dcTrack.addEventListener('touchstart', (e) => {
-            dcStartX = e.touches[0].clientX;
-            dcIsDragging = true;
-        }, { passive: true });
-        
-        dcTrack.addEventListener('touchend', (e) => {
-            if (!dcIsDragging) return;
-            const endX = e.changedTouches[0].clientX;
-            const diffX = endX - dcStartX;
-            if (Math.abs(diffX) > 40) {
-                if (diffX > 0) {
-                    goToDCScreenshot(dcIndex - 1);
-                } else {
-                    goToDCScreenshot(dcIndex + 1);
-                }
-            }
-            dcIsDragging = false;
-        }, { passive: true });
-        
-        dcTrack.addEventListener('mousedown', (e) => {
-            if (e.button !== 0) return;
-            dcStartX = e.clientX;
-            dcIsDragging = true;
-        });
-        
-        window.addEventListener('mouseup', (e) => {
-            if (!dcIsDragging) return;
-            const endX = e.clientX;
-            const diffX = endX - dcStartX;
-            if (Math.abs(diffX) > 40) {
-                if (diffX > 0) {
-                    goToDCScreenshot(dcIndex - 1);
-                } else {
-                    goToDCScreenshot(dcIndex + 1);
-                }
-            }
-            dcIsDragging = false;
-        });
-        
-        // Initialize Data Center slider
+
+        dcPrevBtn.addEventListener('click', () => goToDCScreenshot(dcIndex - 1));
+        dcNextBtn.addEventListener('click', () => goToDCScreenshot(dcIndex + 1));
+        enableSliderGestures(dcTrack, () => goToDCScreenshot(dcIndex - 1), () => goToDCScreenshot(dcIndex + 1));
         updateDCSlider();
 
-        // Tarot Daily Screenshot Slider Logic
+        // 5. Tarot Daily Project Slider
         const tTrack = document.getElementById('tarot-track');
         const tSlides = Array.from(tTrack.children);
         const tDotsContainer = document.getElementById('tarot-dots');
         const tPrevBtn = document.getElementById('tarot-prev');
         const tNextBtn = document.getElementById('tarot-next');
         const tCounter = document.getElementById('tarot-counter');
-        
         let tIndex = 0;
         
-        // Generate dots for Tarot screenshots
         tSlides.forEach((_, idx) => {
             const dot = document.createElement('div');
             dot.classList.add('screenshot-dot');
             if (idx === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => {
-                goToTarotScreenshot(idx);
-            });
+            dot.addEventListener('click', () => goToTarotScreenshot(idx));
             tDotsContainer.appendChild(dot);
         });
-        
         const tDots = Array.from(tDotsContainer.children);
         
         function updateTarotSlider() {
             tTrack.style.transform = `translateX(-${tIndex * 100}%)`;
-            
             tDots.forEach((dot, idx) => {
                 dot.classList.toggle('active', idx === tIndex);
             });
-            
             tCounter.textContent = `${tIndex + 1} / ${tSlides.length}`;
         }
         
@@ -1624,62 +1443,9 @@
             updateTarotSlider();
         }
         
-        tPrevBtn.addEventListener('click', () => {
-            goToTarotScreenshot(tIndex - 1);
-        });
-        
-        tNextBtn.addEventListener('click', () => {
-            goToTarotScreenshot(tIndex + 1);
-        });
-        
-        // Support swipe/drag on Tarot track
-        let tStartX = 0;
-        let tIsDragging = false;
-        
-        tTrack.addEventListener('dragstart', (e) => {
-            e.preventDefault();
-        });
-        
-        tTrack.addEventListener('touchstart', (e) => {
-            tStartX = e.touches[0].clientX;
-            tIsDragging = true;
-        }, { passive: true });
-        
-        tTrack.addEventListener('touchend', (e) => {
-            if (!tIsDragging) return;
-            const endX = e.changedTouches[0].clientX;
-            const diffX = endX - tStartX;
-            if (Math.abs(diffX) > 40) {
-                if (diffX > 0) {
-                    goToTarotScreenshot(tIndex - 1);
-                } else {
-                    goToTarotScreenshot(tIndex + 1);
-                }
-            }
-            tIsDragging = false;
-        }, { passive: true });
-        
-        tTrack.addEventListener('mousedown', (e) => {
-            if (e.button !== 0) return;
-            tStartX = e.clientX;
-            tIsDragging = true;
-        });
-        
-        window.addEventListener('mouseup', (e) => {
-            if (!tIsDragging) return;
-            const endX = e.clientX;
-            const diffX = endX - tStartX;
-            if (Math.abs(diffX) > 40) {
-                if (diffX > 0) {
-                    goToTarotScreenshot(tIndex - 1);
-                } else {
-                    goToTarotScreenshot(tIndex + 1);
-                }
-            }
-            tIsDragging = false;
-        });
-        
-        // Initialize Tarot slider
+        tPrevBtn.addEventListener('click', () => goToTarotScreenshot(tIndex - 1));
+        tNextBtn.addEventListener('click', () => goToTarotScreenshot(tIndex + 1));
+        enableSliderGestures(tTrack, () => goToTarotScreenshot(tIndex - 1), () => goToTarotScreenshot(tIndex + 1));
         updateTarotSlider();
     </script>
 </body>
